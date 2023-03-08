@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h3>This component is going to show the wizkids!</h3>
   </div>
 </template>
 
