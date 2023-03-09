@@ -21,7 +21,7 @@ export default {
     <div class="wrapper">
       <TheHelloWorld/>
 
-      <nav>
+      <nav style="align-items: center;">
         <RouterLink to="/">Home</RouterLink>
           <a class="dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false"
             :class="{ 'router-link-exact-active': isWizkidsRoute }">
@@ -57,6 +57,10 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 nav a.router-link-exact-active {
