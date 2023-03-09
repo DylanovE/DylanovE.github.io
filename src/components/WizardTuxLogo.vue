@@ -19,3 +19,9 @@
         />
     </template>
   
+    <style scoped>
+    .logo {
+    display: block;
+    margin: 0 2rem 0 0;
+    }
+    </style>

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import WizKidsView from '../views/WizKidsView.vue'
+import wizkidsRead from '../views/WizKidsRead.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -10,9 +10,9 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/wizkids',
-      name: 'wizkids',
-      component: WizKidsView
+      path: '/wizkids-read',
+      name: 'wizkids-read',
+      component: wizkidsRead
     }
   ]
 })

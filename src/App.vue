@@ -5,9 +5,17 @@ import WizardTuxLogo from '@/components/WizardTuxLogo.vue'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 </script>
-
+<script>
+export default {
+  computed: {
+    isWizkidsRoute() {
+      return this.$route.path === '/wizkids';
+    }
+  }
+};
+</script>
 <template>
-  <header v-if="this.$route.path == '/'">
+  <header>
     <WizardTuxLogo/>
 
     <div class="wrapper">
@@ -15,23 +23,33 @@ import 'bootstrap/dist/js/bootstrap.js';
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/wizkids">WizKids</RouterLink>
+          <a class="dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false"
+            :class="{ 'router-link-exact-active': isWizkidsRoute }">
+            Wizkids CRUD
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <li><RouterLink to="/wizkids-read">View Wizkids</RouterLink></li>
+            <li><RouterLink to="/wizkids-create">create Wizkids</RouterLink></li>
+          </ul>
       </nav>
     </div>
   </header>
 
   <RouterView />
 </template>
-
 <style scoped>
+.dropdown-menu.show {
+  background-color: var(--color-background-mute);
+  min-width: 0;
+}
+
+.dropdown-menu li {
+  margin: 0 0 0.5rem 0;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 nav {
@@ -64,10 +82,6 @@ nav a:first-of-type {
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
   }
 
   header .wrapper {
