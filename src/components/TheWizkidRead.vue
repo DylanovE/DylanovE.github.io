@@ -1,3 +1,4 @@
+
 <script>
 import axios from 'axios';
 
@@ -131,7 +132,6 @@ table th, td {
 
 @media (min-width: 1024px) {
   .wizkids {
-    grid-column: 1 / span 2;
     align-items: center;
   }
 }

@@ -14,12 +14,6 @@ a,
   color: rgb(0, 128, 255);
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(206, 100%, 50%, 0.2);
-  }
-}
-
 @media (min-width: 1024px) {
   body {
     display: flex;
