@@ -1,13 +1,14 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import TheHelloWorld from '@/components/TheHelloWorld.vue'
+import WizardTuxLogo from '@/components/WizardTuxLogo.vue'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 </script>
 
 <template>
-  <header>
-    <img alt="Gandalf Tux logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <header v-if="this.$route.path == '/'">
+    <WizardTuxLogo/>
 
     <div class="wrapper">
       <TheHelloWorld/>
