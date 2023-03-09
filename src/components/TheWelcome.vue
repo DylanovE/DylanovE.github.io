@@ -1,8 +1,8 @@
 <script setup>
-import WelcomeItem from './WelcomeItem.vue'
-import CommunityIcon from './icons/IconCommunity.vue'
-import DocumentationIcon from './icons/IconDocumentation.vue'
-import SupportIcon from './icons/IconSupport.vue'
+import WelcomeItem from '@/components/WelcomeItem.vue'
+import CommunityIcon from '@/components/icons/IconCommunity.vue'
+import DocumentationIcon from '@/components/icons/IconDocumentation.vue'
+import SupportIcon from '@/components/icons/IconSupport.vue'
 </script>
 
 <template>
@@ -32,6 +32,6 @@ import SupportIcon from './icons/IconSupport.vue'
       <CommunityIcon />
     </template>
     <template #heading>Soon...</template>
-    There's nothing here yet!
+    There's nothing <a class="fw-semibold" href="https://http.cat/404" target="_blank" rel="noopener">here</a> yet!
   </WelcomeItem>
 </template>
