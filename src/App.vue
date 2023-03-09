@@ -9,9 +9,9 @@ import 'bootstrap/dist/js/bootstrap.js';
 export default {
   computed: {
     isWizkidsRoute() {
-      return this.$route.path === '/wizkids';
-    }
-  }
+      return this.$route.path.startsWith('/wizkids-');
+    },
+  },
 };
 </script>
 <template>

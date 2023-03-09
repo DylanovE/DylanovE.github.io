@@ -5,6 +5,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      searchQuery: '',
       users: [],
       sortColumn: null,
       sortDirection: 'asc'
@@ -12,6 +13,16 @@ export default {
   },
 
   computed: {
+    filteredUsers() {
+      return this.users.filter((user) => {
+        const roleString = this.userRoleMap[user.role];
+        return (
+          user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          roleString.toLowerCase().includes(this.searchQuery) ||
+          user.id.toString().includes(this.searchQuery)
+        );
+      });
+    },
     userRoleMap() {
       return {
         null: 'Guest',
@@ -82,43 +93,51 @@ export default {
 <template>
   <div class="container wizkids">
     <h1>WizKids View</h1>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th @click="sortTable('id')">
-            ID
-            <span v-if="sortColumn === 'id'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
-            <span v-else>&#x25b4;&#x25be;</span>
-          </th>
-          <th @click="sortTable('name')">
-            Name
-            <span v-if="sortColumn === 'name'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
-            <span v-else>&#x25b4;&#x25be;</span>
-          </th>
-          <th @click="sortTable('role')">
-            Role
-            <span v-if="sortColumn === 'role'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
-            <span v-else>&#x25b4;&#x25be;</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in sortedUsers" :key="user.id">
-          <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
-          <td>{{ userRole(user.role) }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <input v-model="searchQuery" placeholder="Search">
+    <div class="wizkid-container container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th @click="sortTable('id')">
+              ID
+              <span v-if="sortColumn === 'id'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
+              <span v-else>&#x25b4;&#x25be;</span>
+            </th>
+            <th @click="sortTable('name')">
+              Name
+              <span v-if="sortColumn === 'name'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
+              <span v-else>&#x25b4;&#x25be;</span>
+            </th>
+            <th @click="sortTable('role')">
+              Role
+              <span v-if="sortColumn === 'role'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
+              <span v-else>&#x25b4;&#x25be;</span>
+            </th>
+          </tr>
+        </thead>
+          <tbody>
+              <tr v-for="user in filteredUsers" :key="user.id">
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ userRole(user.role) }}</td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 h1 {
+  float: left;
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 0.4rem;
   color: var(--color-heading);
+}
+
+input {
+  float: right;
 }
 
 table th {
@@ -130,9 +149,16 @@ table th, td {
   color: var(--color-text)!important;
 }
 
+.wizkid-container {
+  overflow-y: auto;
+  height: 50vh;
+}
+
 @media (min-width: 1024px) {
   .wizkids {
     align-items: center;
+    max-height: 50vh;
+    position: relative;
   }
 }
 </style>
