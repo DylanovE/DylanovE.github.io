@@ -91,7 +91,7 @@ export default {
 </script>
 
 <template>
-  <div class="container wizkids">
+  <div class="container wizkids mt-4">
     <h1>WizKids View</h1>
     <input v-model="searchQuery" placeholder="Search">
     <div class="wizkid-container container">
