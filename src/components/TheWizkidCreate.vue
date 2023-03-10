@@ -1,52 +1,82 @@
-<template>
-  <div class="form-container">
-    <form @submit.prevent="createWizkid">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" v-model="name" required>
-      </div>
-      <div class="form-group">
-        <label for="role">Role:</label>
-        <input type="number" id="role" v-model="role" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required>
-      </div>
-      <button type="submit">Create Wizkid</button>
-    </form>
-  </div>
-</template>
-
 <script>
 import axios from 'axios';
 
 export default {
   data() {
     return {
+      postMessage: '',
       name: '',
-      role: null,
+      role: '',
       email: '',
+      roles: {
+        1: 'Boss',
+        2: 'Developer',
+        3: 'Designer',
+        10: 'Intern'
+      },
+      message: '',
     };
   },
+  
+  computed: {
+    errorMessage() {
+      return this.postMessage;
+    },
+    successMessage() {
+      return this.postMessage === 'Wizkid created.' ? 'Wizkid created successfully!' : 'kebab?';
+    },
+  },
+
   methods: {
     async createWizkid() {
       try {
-        axios.post('http://localhost:8000/wizkids', {
+        console.log('Attempting to create wizkid...');
+        await axios.post('http://localhost:8000/wizkids', {
           name: this.name,
           role: parseInt(this.role),
           email: this.email,
         });
-        alert('Wizkid created successfully!');
+        console.log('Wizkid created successfully!');
+        this.postMessage = 'Wizkid created successfully!';
       } catch (error) {
-        alert('Oops! Something went wrong.');
+        console.error(error.response.data.message);
+        this.postMessage = error.response.data.message || 'Oops! Something went wrong.';
       }
     },
   },
 };
 </script>
 
-<style>
+<template>
+  <div class="form-container">
+    <form @submit.prevent="createWizkid">
+      <div class="message" :class="{ 'text-success': postMessage === 'Wizkid created successfully!', 'text-danger': postMessage !== 'Wizkid created successfully!' }">{{ postMessage }}</div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" v-model="name" required>
+      </div>
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role" v-model="role" required>
+          <option value="">Select a role</option>
+          <option :value="key" v-for="(value, key) in roles" :key="key">{{ value }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="email" required>
+      </div>
+      <button type="submit" class="blue">Create Wizkid</button>
+    </form>
+  </div>
+</template>
+
+<style scoped>
+.message {
+  font-size: 0.76rem;
+  align-self: center;
+}
+
 .form-container {
   display: flex;
   justify-content: center;
@@ -59,7 +89,8 @@ form {
   flex-direction: column;
   gap: 1rem;
   padding: 2rem;
-  border: 1px solid #ccc;
+  background-color: var(--vt-c-black-soft);
+  border: 1px solid var(--color-border);
   border-radius: 5px;
 }
 
@@ -72,16 +103,18 @@ label {
   font-weight: bold;
 }
 
-input {
+input,
+select {
+  background-color: var(--vt-c-black);
+  color: var(--vt-c-text-dark-2);
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   border-radius: 5px;
   font-size: 1rem;
 }
 
 button[type="submit"] {
-  background-color: #008CBA;
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
@@ -90,6 +123,6 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #005F6B;
+  color: rgb(0, 38, 255);
 }
 </style>
