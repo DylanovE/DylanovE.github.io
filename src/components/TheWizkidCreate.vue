@@ -31,17 +31,14 @@ export default {
   },
   methods: {
     async createWizkid() {
-      console.log(this.name, this.role, this.email);
       try {
-        const response = await axios.post('http://localhost:8000/wizkids', {
+        axios.post('http://localhost:8000/wizkids', {
           name: this.name,
           role: parseInt(this.role),
           email: this.email,
         });
-        console.log(response.data);
         alert('Wizkid created successfully!');
       } catch (error) {
-        console.error(error);
         alert('Oops! Something went wrong.');
       }
     },
