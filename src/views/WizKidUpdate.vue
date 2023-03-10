@@ -4,7 +4,7 @@
   import { useRoute } from 'vue-router'
 
   defineProps({
-    id: Number
+    wizkidId: Number
   })
 
   const route = useRoute()
@@ -22,9 +22,10 @@
 
   const postMessage = ref('')
 
-  async function updateWizkid(id) {
+  async function updateWizkid(wizkidId) {
   try {
-    const response = await axios.put(`http://localhost:8000/wizkids/${id}`, {
+    console.log(wizkidId)
+    const response = await axios.put(`http://localhost:8000/wizkids/${wizkidId}`, {
       name: name.value,
       role: role.value
     })

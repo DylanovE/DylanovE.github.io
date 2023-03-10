@@ -22,7 +22,7 @@ const router = createRouter({
       component: wizkidCreate
     },
     {
-      path: '/wizkids-update/:id',
+      path: '/wizkids-update/:wizkidId',
       name: 'wizkids-update',
       component: wizkidUpdate,
       props: true
