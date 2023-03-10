@@ -66,6 +66,23 @@ export default {
     wizkidRole(role) {
       return this.wizkidRoleMap[role] || 'Unknown Role'
     },
+    async deleteWizkid(id) {
+      try {
+        const confirmed = confirm(`Are you sure you want to delete wizkid with ID ${id}?`);
+        if (!confirmed) {
+          return;
+        }
+        console.log('Attempting to delete wizkid...');
+        await axios.delete(`http://localhost:8000/wizkids/${id}`)
+        console.log('Wizkid deleted successfully!');
+        const index = this.wizkids.findIndex((wizkid) => wizkid.id === id);
+        if (index !== -1) {
+          this.wizkids.splice(index, 1);
+        }
+      } catch (error) {
+        console.error(error.response.data.message);
+      }
+    },
     sortTable(column) {
       if (this.sortColumn === column) {
         this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -97,20 +114,22 @@ export default {
       <table class="table table-striped">
         <thead>
           <tr>
-            <th @click="sortTable('id')">
+            <th class="sortable" @click="sortTable('id')">
               ID
               <span v-if="sortColumn === 'id'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
               <span v-else>&#x25b4;&#x25be;</span>
             </th>
-            <th @click="sortTable('name')">
+            <th class="sortable" @click="sortTable('name')">
               Name
               <span v-if="sortColumn === 'name'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
               <span v-else>&#x25b4;&#x25be;</span>
             </th>
-            <th @click="sortTable('role')">
+            <th class="sortable" @click="sortTable('role')">
               Role
               <span v-if="sortColumn === 'role'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
               <span v-else>&#x25b4;&#x25be;</span>
+            </th>
+            <th> Functionality
             </th>
           </tr>
         </thead>
@@ -119,6 +138,12 @@ export default {
                 <td>{{ wizkid.id }}</td>
                 <td>{{ wizkid.name }}</td>
                 <td>{{ wizkidRole(wizkid.role) }}</td>
+                <td>
+                  <svg @click="(event) => deleteWizkid(wizkid.id, event)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                    </path>
+                  </svg>
+                </td>
               </tr>
           </tbody>
       </table>
@@ -139,7 +164,7 @@ input {
   float: right;
 }
 
-table th {
+.sortable{
   color: var(--color-heading)!important;
   cursor: pointer;
 }
@@ -151,6 +176,10 @@ table th, td {
 .wizkid-container {
   overflow-y: auto;
   height: 50vh;
+}
+
+svg {
+  cursor: pointer;
 }
 
 @media (min-width: 1024px) {
