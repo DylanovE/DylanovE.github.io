@@ -1,5 +1,5 @@
 <script setup>
-import WizkidRead from '@/components/TheWizkidRead.vue'
+import WizkidRead from '@/components/CRUD/TheWizkidRead.vue'
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup>
-import WizkidCreate from '@/components/TheWizkidCreate.vue'
+import WizkidCreate from '@/components/CRUD/TheWizkidCreate.vue'
 </script>
 
 <template>
