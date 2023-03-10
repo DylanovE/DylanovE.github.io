@@ -1,4 +1,3 @@
-
 <script>
 import axios from 'axios';
 
@@ -6,24 +5,24 @@ export default {
   data() {
     return {
       searchQuery: '',
-      users: [],
+      wizkids: [],
       sortColumn: null,
       sortDirection: 'asc'
     };
   },
 
   computed: {
-    filteredUsers() {
-      return this.users.filter((user) => {
-        const roleString = this.userRoleMap[user.role];
+    filteredWizkids() {
+      return this.wizkids.filter((wizkid) => {
+        const roleString = this.wizkidRoleMap[wizkid.role];
         return (
-          user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          wizkid.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
           roleString.toLowerCase().includes(this.searchQuery) ||
-          user.id.toString().includes(this.searchQuery)
+          wizkid.id.toString().includes(this.searchQuery)
         );
       });
     },
-    userRoleMap() {
+    wizkidRoleMap() {
       return {
         null: 'Guest',
         1: 'Boss',
@@ -32,10 +31,10 @@ export default {
         4: 'Intern'
       }
     },
-    sortedUsers() {
-      const users = [...this.users];
+    sortedWizkids() {
+      const wizkids = [...this.wizkids];
       if (this.sortColumn) {
-        users.sort((a, b) => {
+        wizkids.sort((a, b) => {
           const aValue = a[this.sortColumn];
           const bValue = b[this.sortColumn];
           let result = 0;
@@ -59,13 +58,13 @@ export default {
           return this.sortDirection === 'asc' ? result : -result;
         });
       }
-      return users;
+      return wizkids;
     }
   },
 
   methods: {
-    userRole(role) {
-      return this.userRoleMap[role] || 'Unknown Role'
+    wizkidRole(role) {
+      return this.wizkidRoleMap[role] || 'Unknown Role'
     },
     sortTable(column) {
       if (this.sortColumn === column) {
@@ -80,7 +79,7 @@ export default {
   mounted() {
     axios.get('http://localhost:8000/wizkids/')
       .then(response => {
-        this.users = response.data.data;
+        this.wizkids = response.data.data;
         this.table = this.sortColumn = 'id';
       })
       .catch(error => {
@@ -91,7 +90,7 @@ export default {
 </script>
 
 <template>
-  <div class="container wizkids">
+  <div class="container wizkids mt-4">
     <h1>WizKids View</h1>
     <input v-model="searchQuery" placeholder="Search">
     <div class="wizkid-container container">
@@ -116,10 +115,10 @@ export default {
           </tr>
         </thead>
           <tbody>
-              <tr v-for="user in filteredUsers" :key="user.id">
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ userRole(user.role) }}</td>
+              <tr v-for="wizkid in filteredWizkids" :key="wizkid.id">
+                <td>{{ wizkid.id }}</td>
+                <td>{{ wizkid.name }}</td>
+                <td>{{ wizkidRole(wizkid.role) }}</td>
               </tr>
           </tbody>
       </table>
