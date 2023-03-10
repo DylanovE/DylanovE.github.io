@@ -1,9 +1,9 @@
 <script setup>
-import TheWizkidCreate from '@/components/TheWizkidCreate.vue'
+import WizkidCreate from '@/components/TheWizkidCreate.vue'
 </script>
 
 <template>
   <main>
-    <TheWizkidCreate />
+    <WizkidCreate />
   </main>
 </template>

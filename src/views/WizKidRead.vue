@@ -1,9 +1,9 @@
 <script setup>
-import TheWizkidRead from '@/components/TheWizkidRead.vue'
+import WizkidRead from '@/components/TheWizkidRead.vue'
 </script>
 
 <template>
   <main>
-    <TheWizkidRead />
+    <WizkidRead />
   </main>
 </template>
