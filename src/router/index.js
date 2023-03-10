@@ -19,13 +19,14 @@ const router = createRouter({
     {
       path: '/wizkids-create',
       name: 'wizkids-create',
-      component:wizkidCreate
+      component: wizkidCreate
     },
     {
-      path: '/wizkids-update',
+      path: '/wizkids-update/:id',
       name: 'wizkids-update',
-      component:wizkidUpdate
-    }
+      component: wizkidUpdate,
+      props: true
+    },
   ]
 })
 
