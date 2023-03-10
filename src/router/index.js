@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import wizkidRead from '../views/WizKidRead.vue'
 import wizkidCreate from '../views/WizKidCreate.vue'
+import wizkidUpdate from '../views/WizKidUpdate.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,6 +20,11 @@ const router = createRouter({
       path: '/wizkids-create',
       name: 'wizkids-create',
       component:wizkidCreate
+    },
+    {
+      path: '/wizkids-update',
+      name: 'wizkids-update',
+      component:wizkidUpdate
     }
   ]
 })
