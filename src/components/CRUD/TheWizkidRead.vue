@@ -189,6 +189,10 @@ svg {
   cursor: pointer;
 }
 
+svg:hover {
+  color: rgb(0, 38, 255);
+}
+
 .router-link:hover {
   color: rgb(0, 38, 255);
 }

@@ -14,6 +14,10 @@ a,
   color: rgb(0, 128, 255);
 }
 
+.red {
+  color: rgb(255, 0, 0);
+}
+
 @media (min-width: 1024px) {
   body {
     display: flex;
