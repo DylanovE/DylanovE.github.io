@@ -108,27 +108,24 @@ export default {
 
 <template>
   <div class="container wizkids mt-4">
-    <h1>WizKids View</h1>
+    <h3>WizKids View</h3>
     <input class="float-start" v-model="searchQuery" placeholder="Search">
-    <h1 class="float-end blue"><RouterLink :to="{ name: 'wizkids-create' }">Create wizkid</RouterLink></h1>
+    <h5 class="float-end blue"><RouterLink :to="{ name: 'wizkids-create' }">Create wizkid</RouterLink></h5>
     <div class="wizkid-container container">
       <table class="table table-striped">
         <thead>
           <tr>
             <th class="sortable" @click="sortTable('id')">
-              ID
-              <span v-if="sortColumn === 'id'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
-              <span v-else>&#x25b4;&#x25be;</span>
+              <span v-if="sortColumn === 'id'">{{ sortDirection === 'asc' ? 'ID&#x25b4;' : 'ID&#x25be;' }}</span>
+              <span v-else>ID&#x25b4;&#x25be;</span>
             </th>
             <th class="sortable" @click="sortTable('name')">
-              Name
-              <span v-if="sortColumn === 'name'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
-              <span v-else>&#x25b4;&#x25be;</span>
+              <span v-if="sortColumn === 'name'">{{ sortDirection === 'asc' ? 'Name&#x25b4;' : 'Name&#x25be;' }}</span>
+              <span v-else>Name&#x25b4;&#x25be;</span>
             </th>
             <th class="sortable" @click="sortTable('role')">
-              Role
-              <span v-if="sortColumn === 'role'">{{ sortDirection === 'asc' ? '&#x25b4;' : '&#x25be;' }}</span>
-              <span v-else>&#x25b4;&#x25be;</span>
+              <span v-if="sortColumn === 'role'">{{ sortDirection === 'asc' ? 'Role&#x25b4;' : 'Role&#x25be;' }}</span>
+              <span v-else>Role&#x25b4;&#x25be;</span>
             </th>
             <th>  
             </th>
@@ -164,8 +161,7 @@ export default {
 </template>
 
 <style scoped>
-h1 {
-  font-size: 1.4rem;
+h3, h5 {
   font-weight: 500;
   margin-bottom: 0.4rem;
   color: var(--color-heading);
@@ -174,6 +170,12 @@ h1 {
 .sortable{
   color: var(--color-heading)!important;
   cursor: pointer;
+}
+
+table {
+  table-layout: fixed;
+  word-wrap:break-word;
+  width: 100%;
 }
 
 table th, td {
