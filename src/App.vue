@@ -23,14 +23,14 @@ export default {
 
       <nav style="align-items: center;">
         <RouterLink to="/">Home</RouterLink>
-          <a class="dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false"
+        <RouterLink to="/wizkids-read">Wizkids</RouterLink>
+          <!-- <a class="dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false"
             :class="{ 'router-link-exact-active': isWizkidsRoute }">
             Wizkids CRUD
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <li><RouterLink to="/wizkids-read">View Wizkids</RouterLink></li>
-            <li><RouterLink to="/wizkids-create">create Wizkids</RouterLink></li>
-          </ul>
+          </ul> -->
       </nav>
     </div>
   </header>

@@ -66,7 +66,8 @@ export default {
         <label for="email">Email:</label>
         <input type="email" id="email" v-model="email" required>
       </div>
-      <button type="submit" class="blue">Create Wizkid</button>
+      <button type="submit" class="blue">Update Wizkid</button>
+      <RouterLink :to="{ name: 'wizkids-read' }"><button type="button" class="red">Cancel</button></RouterLink>
     </form>
   </div>
 </template>
@@ -113,7 +114,7 @@ select {
   font-size: 1rem;
 }
 
-button[type="submit"] {
+button {
   background-color: rgba(0, 0, 0, 0);
   padding: 0.5rem 1rem;
   border: none;
@@ -122,7 +123,7 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button:hover {
   color: rgb(0, 38, 255);
 }
 </style>

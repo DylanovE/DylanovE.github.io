@@ -1,72 +1,74 @@
-<script>
+<script setup>
+import { reactive, computed } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-export default {
-  data() {
-    return {
-      postMessage: '',
-      name: '',
-      role: '',
-      email: '',
-      roles: {
-        1: 'Boss',
-        2: 'Developer',
-        3: 'Designer',
-        4: 'Intern'
-      },
-      message: '',
-    };
+const state = reactive({
+  postMessage: '',
+  name: '',
+  role: '',
+  email: '',
+  roles: {
+    1: 'Boss',
+    2: 'Developer',
+    3: 'Designer',
+    4: 'Intern'
   },
-  
-  computed: {
-    errorMessage() {
-      return this.postMessage;
-    },
-    successMessage() {
-      return this.postMessage === 'Wizkid created.' ? 'Wizkid created successfully!' : 'kebab?';
-    },
-  },
+});
 
-  methods: {
-    async createWizkid() {
-      try {
-        console.log('Attempting to create wizkid...');
-        await axios.post('http://localhost:8000/wizkids', {
-          name: this.name,
-          role: parseInt(this.role),
-          email: this.email,
-        });
-        console.log('Wizkid created successfully!');
-        this.postMessage = 'Wizkid created successfully!';
-      } catch (error) {
-        console.error(error.response.data.message);
-        this.postMessage = error.response.data.message || 'Oops! Something went wrong.';
-      }
-    },
-  },
+const router = useRouter();
+
+const errorMessage = computed(() => {
+  return state.postMessage && state.postMessage !== 'Wizkid created.' ? state.postMessage : '';
+});
+
+const successMessage = computed(() => {
+  return state.postMessage === 'Wizkid created.' ? 'Wizkid created successfully!' : '';
+});
+
+const createWizkid = async () => {
+  try {
+    await axios.post('http://localhost:8000/wizkids', {
+      name: state.name,
+      role: parseInt(state.role),
+      email: state.email,
+    });
+    state.postMessage = 'Wizkid created.';
+    setTimeout(() => {
+      state.postMessage = '';
+      router.push({ name: 'wizkids-read' });
+    }, 1500);
+  } catch (error) {
+    console.error(error.response.data.message);
+    state.postMessage = error.response.data.message || 'Oops! Something went wrong.';
+  }
 };
 </script>
 
 <template>
   <div class="form-container">
     <form @submit.prevent="createWizkid">
-      <div class="message" :class="{ 'text-success': postMessage === 'Wizkid created successfully!', 'text-danger': postMessage !== 'Wizkid created successfully!' }">{{ postMessage }}</div>
+      <div class="message" :class="{ 'text-success': successMessage, 'text-danger': errorMessage }">{{ errorMessage || successMessage }}</div>
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" v-model="name" required>
+        <input type="text" id="name" v-model="state.name" required>
       </div>
       <div class="form-group">
         <label for="role">Role:</label>
-        <select id="role" v-model="role" required>
+        <select id="role" v-model="state.role" required>
           <option value="">Select a role</option>
-          <option :value="key" v-for="(value, key) in roles" :key="key">{{ value }}</option>
+          <option :value="key" v-for="(value, key) in state.roles" :key="key">{{ value }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required>
+        <input type="email" id="email" v-model="state.email" required>
       </div>
-      <button type="submit" class="blue">Create Wizkid</button>
+      <div>
+        <router-link :to="{ name: 'wizkids-read' }"><button type="button" class="red float-end">Cancel</button></router-link>
+        <button type="submit" class="blue float-start">Create wizkid</button>
+        <button type="submit" class="blue float-start">Create &#38; another wizkid</button>
+      </div>
     </form>
   </div>
 </template>
@@ -113,7 +115,7 @@ select {
   font-size: 1rem;
 }
 
-button[type="submit"] {
+button {
   background-color: rgba(0, 0, 0, 0);
   padding: 0.5rem 1rem;
   border: none;
@@ -122,7 +124,7 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button:hover {
   color: rgb(0, 38, 255);
 }
 </style>

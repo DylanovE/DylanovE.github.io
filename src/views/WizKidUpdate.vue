@@ -18,21 +18,21 @@
 
   const postMessage = ref('')
 
+
   async function updateWizkid() {
   try {
-    const response = await axios.put(`http://localhost:8000/wizkids/${Number(route.params.wizkidId)}`, {
+    await axios.put(`http://localhost:8000/wizkids/${Number(route.params.wizkidId)}`, {
       name: name.value,
       role: Number(role.value)
     })
-
-    if (response.status === 200) {
-      postMessage.value = 'Wizkid updated successfully!'
-    } else {
-      postMessage.value = 'Failed to update Wizkid'
-    }
+    postMessage.value = 'Wizkid updated successfully!'
+    setTimeout(() => {
+      this.postMessage = '';
+      route.push({ name: 'wizkids-read' });
+    }, 1500);
   } catch (error) {
-    console.error(error)
-    postMessage.value = 'Error updating Wizkid'
+      console.error(error.response.data.message);
+      this.postMessage = error.response.data.message || 'Oops! Something went wrong.';
   }
 }
 
@@ -49,7 +49,7 @@
       <div class="form-group">
         <label for="role">Role:</label>
         <select id="role" v-model="role">
-          <option value="">Select a role</option>
+          <option value="" disabled>Select a role</option>
           <option :value="key" v-for="(value, key) in roles" :key="key">{{ value }}</option>
         </select>
       </div>
@@ -57,7 +57,11 @@
         <label for="email">Email:</label>
         <input type="email" id="email" v-model="email" disabled>
       </div>
-      <button type="submit" class="blue">Update Wizkid</button>
+      <div>
+        <button type="submit" class="blue">Update Wizkid</button>
+        <router-link :to="{ name: 'wizkids-read' }"><button type="button" class="red float-end">Cancel</button></router-link>
+      </div>
+
     </form>
   </div>
 </template>
@@ -104,7 +108,7 @@ select {
   font-size: 1rem;
 }
 
-button[type="submit"] {
+button {
   background-color: rgba(0, 0, 0, 0);
   padding: 0.5rem 1rem;
   border: none;
@@ -113,7 +117,7 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button:hover {
   color: rgb(0, 38, 255);
 }
 </style>
