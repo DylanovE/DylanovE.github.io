@@ -23,21 +23,21 @@ export default {
       return this.postMessage;
     },
     successMessage() {
-      return this.postMessage === 'Wizkid created.' ? 'Wizkid created successfully!' : 'kebab?';
+      return this.postMessage === 'Wizkid updated.' ? 'Wizkid updated successfully!' : 'kebab?';
     },
   },
 
   methods: {
-    async createWizkid() {
+    async updateWizkid() {
       try {
-        console.log('Attempting to create wizkid...');
+        console.log('Attempting to updated wizkid...');
         await axios.post('http://localhost:8000/wizkids', {
           name: this.name,
           role: parseInt(this.role),
           email: this.email,
         });
-        console.log('Wizkid created successfully!');
-        this.postMessage = 'Wizkid created successfully!';
+        console.log('Wizkid updated successfully!');
+        this.postMessage = 'Wizkid updated successfully!';
       } catch (error) {
         console.error(error.response.data.message);
         this.postMessage = error.response.data.message || 'Oops! Something went wrong.';
@@ -49,8 +49,8 @@ export default {
 
 <template>
   <div class="form-container">
-    <form @submit.prevent="createWizkid">
-      <div class="message" :class="{ 'text-success': postMessage === 'Wizkid created successfully!', 'text-danger': postMessage !== 'Wizkid created successfully!' }">{{ postMessage }}</div>
+    <form @submit.prevent="updateWizkid">
+      <div class="message" :class="{ 'text-success': postMessage === 'Wizkid updated successfully!', 'text-danger': postMessage !== 'Wizkid updated successfully!' }">{{ postMessage }}</div>
       <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" v-model="name" required>

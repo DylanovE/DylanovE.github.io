@@ -39,7 +39,6 @@ export default {
           const bValue = b[this.sortColumn];
           let result = 0;
           if (typeof aValue === 'string' && typeof bValue === 'string') {
-            // Convert string values to lowercase before comparing
             const aLower = aValue.toLowerCase();
             const bLower = bValue.toLowerCase();
             if (aLower < bLower) {
@@ -48,7 +47,6 @@ export default {
               result = 1;
             }
           } else {
-            // Use default comparison for non-string values
             if (aValue < bValue) {
               result = -1;
             } else if (aValue > bValue) {
@@ -67,22 +65,69 @@ export default {
       return this.wizkidRoleMap[role] || 'Unknown Role'
     },
     async deleteWizkid(id) {
-      try {
-        const confirmed = confirm(`Are you sure you want to delete wizkid with ID ${id}?`);
-        if (!confirmed) {
-          return;
-        }
-        console.log('Attempting to delete wizkid...');
-        await axios.delete(`http://localhost:8000/wizkids/${id}`)
-        console.log('Wizkid deleted successfully!');
-        const index = this.wizkids.findIndex((wizkid) => wizkid.id === id);
-        if (index !== -1) {
-          this.wizkids.splice(index, 1);
-        }
-      } catch (error) {
-        console.error(error.response.data.message);
-      }
-    },
+  try {
+    let confirmed = true;
+    if (localStorage.getItem('deleteConfirmation') !== 'confirmed') {
+      // Display custom dialog if delete confirmation is not already confirmed
+      const dialog = document.createElement('div');
+      dialog.innerHTML = `
+        <div>
+          <p>Are you sure you want to delete wizkid with ID ${id}?</p>
+          <div>
+            <button id="confirm">Confirm</button>
+            <button id="confirmAndDontAskAgain">Confirm and don't ask again</button>
+            <button id="cancel">Cancel</button>
+          </div>
+        </div>
+      `;
+      dialog.style.position = 'fixed';
+      dialog.style.top = '50%';
+      dialog.style.left = '50%';
+      dialog.style.transform = 'translate(-50%, -50%)';
+      dialog.style.backgroundColor = 'white';
+      dialog.style.border = '1px solid black';
+      dialog.style.padding = '20px';
+      dialog.style.zIndex = '99999';
+      document.body.appendChild(dialog);
+
+      // Add event listeners to buttons
+      const confirmButton = dialog.querySelector('#confirm');
+      const confirmAndDontAskAgainButton = dialog.querySelector('#confirmAndDontAskAgain');
+      const cancelButton = dialog.querySelector('#cancel');
+      const removeDialog = () => dialog.remove();
+
+      confirmButton.addEventListener('click', () => {
+        confirmed = true;
+        removeDialog();
+      });
+
+      confirmAndDontAskAgainButton.addEventListener('click', () => {
+        localStorage.setItem('deleteConfirmation', 'confirmed');
+        confirmed = true;
+        removeDialog();
+      });
+
+      cancelButton.addEventListener('click', () => {
+        confirmed = false;
+        removeDialog();
+      });
+    }
+
+    if (!confirmed) {
+      return;
+    }
+
+    console.log('Attempting to delete wizkid...');
+    await axios.delete(`http://localhost:8000/wizkids/${id}`);
+    console.log('Wizkid deleted successfully!');
+    const index = this.wizkids.findIndex((wizkid) => wizkid.id === id);
+    if (index !== -1) {
+      this.wizkids.splice(index, 1);
+    }
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+},
     sortTable(column) {
       if (this.sortColumn === column) {
         this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -119,7 +164,7 @@ export default {
               <span v-if="sortColumn === 'id'">{{ sortDirection === 'asc' ? 'ID&#x25b4;' : 'ID&#x25be;' }}</span>
               <span v-else>ID&#x25b4;&#x25be;</span>
             </th>
-            <th class="sortable" style="width: 50%" @click="sortTable('name')">
+            <th class="sortable" style="width: 45%" @click="sortTable('name')">
               <span v-if="sortColumn === 'name'">{{ sortDirection === 'asc' ? 'Name&#x25b4;' : 'Name&#x25be;' }}</span>
               <span v-else>Name&#x25b4;&#x25be;</span>
             </th>
