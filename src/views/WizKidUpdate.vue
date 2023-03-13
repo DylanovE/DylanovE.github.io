@@ -3,10 +3,6 @@
   import {ref } from 'vue'  
   import { useRoute } from 'vue-router'
 
-  defineProps({
-    wizkidId: Number
-  })
-
   const route = useRoute()
 
   const roles = {
@@ -22,12 +18,11 @@
 
   const postMessage = ref('')
 
-  async function updateWizkid(wizkidId) {
+  async function updateWizkid() {
   try {
-    console.log(wizkidId)
-    const response = await axios.put(`http://localhost:8000/wizkids/${wizkidId}`, {
+    const response = await axios.put(`http://localhost:8000/wizkids/${Number(route.params.wizkidId)}`, {
       name: name.value,
-      role: role.value
+      role: Number(role.value)
     })
 
     if (response.status === 200) {
