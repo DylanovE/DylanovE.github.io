@@ -52,8 +52,10 @@
 
 <script setup>
 import { useCrudApi } from '../../composables/useCrudApi';
+// import { computed } from 'vue';
 
 const { wizkids } = useCrudApi();
+const { searchQuery } = '';
 
 const wizkidRoleMap = {
   null: 'Guest',
@@ -62,6 +64,19 @@ const wizkidRoleMap = {
   3: 'Designer',
   4: 'Intern'
 };
+
+console.log(wizkids) //is object with _rawValue that is a array, cant get the array somehow though to then filter it.
+
+// const filteredWizkids = computed(() => {
+//   console.log(wizkids.filter())
+//   return wizkids.filter((wizkid) => {
+//     return (
+//       wizkid.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+//       wizkidRoleMap[wizkid].toLowerCase().includes(searchQuery.value) ||
+//       wizkid.id.toString().includes(searchQuery.value)
+//     );
+//   });
+// });
 </script>
 
 <style scoped>
