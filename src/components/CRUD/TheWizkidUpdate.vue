@@ -12,7 +12,7 @@ export default {
         1: 'Boss',
         2: 'Developer',
         3: 'Designer',
-        4: 'Intern'
+        10: 'Intern'
       },
       message: '',
     };
