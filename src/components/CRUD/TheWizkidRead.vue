@@ -119,7 +119,7 @@ export default {
               <span v-if="sortColumn === 'id'">{{ sortDirection === 'asc' ? 'ID&#x25b4;' : 'ID&#x25be;' }}</span>
               <span v-else>ID&#x25b4;&#x25be;</span>
             </th>
-            <th class="sortable" @click="sortTable('name')">
+            <th class="sortable" style="width: 50%" @click="sortTable('name')">
               <span v-if="sortColumn === 'name'">{{ sortDirection === 'asc' ? 'Name&#x25b4;' : 'Name&#x25be;' }}</span>
               <span v-else>Name&#x25b4;&#x25be;</span>
             </th>
@@ -127,8 +127,7 @@ export default {
               <span v-if="sortColumn === 'role'">{{ sortDirection === 'asc' ? 'Role&#x25b4;' : 'Role&#x25be;' }}</span>
               <span v-else>Role&#x25b4;&#x25be;</span>
             </th>
-            <th>  
-            </th>
+            <th/>
           </tr>
         </thead>
         <tbody>
