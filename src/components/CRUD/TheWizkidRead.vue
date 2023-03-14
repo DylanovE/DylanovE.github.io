@@ -61,12 +61,12 @@
   import { RouterLink } from 'vue-router';
   import { ref, computed } from 'vue';
 
-  const { fetchWizkids, deleteWizkid } = useCrudApi();
+  const { CRUD } = useCrudApi();
 
   const searchQuery = ref('');
   const wizkids = ref([]);
 
-  fetchWizkids().then(data => {
+  CRUD('read').then(data => {
     wizkids.value = data;
   });
 
@@ -111,7 +111,7 @@
   }
 
   async function deleteWizkidById(id) {
-  const result = await deleteWizkid(id);
+  const result = await CRUD('delete', id);
   if (result) {
     wizkids.value = wizkids.value.filter(w => w.id !== id);
   }
