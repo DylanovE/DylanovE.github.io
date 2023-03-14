@@ -1,6 +1,6 @@
 import { createApp, defineComponent, ref, onMounted } from 'vue'
 
-export function usePopupMessage() {
+export function usePopupNotification() {
   const showPopup = ref(false)
   const popup = document.createElement('div')
   popup.classList.add('popup-message')
@@ -9,9 +9,11 @@ export function usePopupMessage() {
     const PopupComponent = defineComponent({
       setup() {
         popup.innerHTML = msg
-        if(isSuccess == 1){
+        if(isSuccess === 'success'){
+          popup.classList.remove('red')
           popup.classList.add('green')
         }else{
+          popup.classList.remove('green')
           popup.classList.add('red')
         }
 

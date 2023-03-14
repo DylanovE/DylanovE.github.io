@@ -18,11 +18,3 @@
         height="125"
         />
     </template>
-  
-    <style scoped>
-    .logo {
-    display: block;
-    margin: 0 2rem 0 0;
-    float: left;
-    }
-    </style>

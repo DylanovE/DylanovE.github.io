@@ -48,7 +48,7 @@ export default {
 </script>
 
 <template>
-  <div class="form-container">
+  <div class="update-container">
     <form @submit.prevent="updateWizkid">
       <div class="message" :class="{ 'text-success': postMessage === 'Wizkid updated successfully!', 'text-danger': postMessage !== 'Wizkid updated successfully!' }">{{ postMessage }}</div>
       <div class="form-group">
@@ -71,59 +71,3 @@ export default {
     </form>
   </div>
 </template>
-
-<style scoped>
-.message {
-  font-size: 0.76rem;
-  align-self: center;
-}
-
-.form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 2rem;
-  background-color: var(--vt-c-black-soft);
-  border: 1px solid var(--color-border);
-  border-radius: 5px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  font-weight: bold;
-}
-
-input,
-select {
-  background-color: var(--vt-c-black);
-  color: var(--vt-c-text-dark-2);
-  padding: 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-button {
-  background-color: rgba(0, 0, 0, 0);
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-button:hover {
-  color: rgb(0, 38, 255);
-}
-</style>

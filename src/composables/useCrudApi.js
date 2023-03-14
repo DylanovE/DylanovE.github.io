@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { usePopupMessage } from './usePopupMessage';
+import { usePopupNotification } from './usePopupNotification';
 
 export function useCrudApi() {
   
-  const { showMessage } = usePopupMessage();
+  const { showMessage } = usePopupNotification();
 
   const apiUrl = 'http://localhost:8000/wizkids';
 
@@ -11,28 +11,28 @@ export function useCrudApi() {
     try {
       let response;
       switch (type) {
-        case 'create':
-          response = await axios.post(apiUrl, wizkid);
-          showMessage('Wizkid created successfully', 1);
-          break;
         case 'read':
           response = await axios.get(apiUrl);
           return response.data.data;
+        case 'create':
+          await axios.post(apiUrl, wizkid);
+          showMessage('Wizkid created successfully', 'success');
+          break;
         case 'update':
-          response = await axios.put(`${apiUrl}/${id}`, wizkid);
-          showMessage('Wizkid updated successfully', 1);
+          await axios.put(`${apiUrl}/${id}`, wizkid);
+          showMessage('Wizkid updated successfully', 'success');
           break;
         case 'delete':
-          response = await axios.delete(`${apiUrl}/${id}`);
-          showMessage('Wizkid deleted successfully', 1);
+          await axios.delete(`${apiUrl}/${id}`);
+          showMessage('Wizkid deleted successfully', 'success');
           return !!response;
         default:
           throw new Error(`Invalid type: ${type}`);
       }
       return response.data;
     } catch (error) {
-      console.error(error);
-      showMessage(error.message);
+      console.error(error.message);
+      showMessage(error.message, 0);
       return null;
     }
   };
