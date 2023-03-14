@@ -28,7 +28,7 @@
               <td>{{ wizkid.name }}</td>
               <td>{{ wizkidRoleMap[wizkid.role] }}</td>
               <td>
-                <svg @click="deleteWizkid(wizkid.id)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" >
+                <svg @click="deleteWizkidById(wizkid.id)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" >
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                   </path>
                 </svg>
@@ -55,66 +55,67 @@
 
 
 
+
 <script setup>
-import { useCrudApi } from '../../composables/useCrudApi';
-import { RouterLink } from 'vue-router';
-import { ref, computed } from 'vue';
+  import { useCrudApi } from '../../composables/useCrudApi';
+  import { RouterLink } from 'vue-router';
+  import { ref, computed } from 'vue';
 
-const { fetchWizkids } = useCrudApi();
+  const { fetchWizkids, deleteWizkid } = useCrudApi();
 
-const searchQuery = ref('');
-const wizkids = ref([]);
+  const searchQuery = ref('');
+  const wizkids = ref([]);
 
-fetchWizkids().then(data => {
-  wizkids.value = data;
-});
-
-const wizkidRoleMap = {
-  null: 'Guest',
-  1: 'Boss',
-  2: 'Developer',
-  3: 'Designer',
-  4: 'Intern'
-};
-
-const filteredWizkids = computed(() => {
-  const query = searchQuery.value.toLowerCase();
-  
-  return wizkids.value.filter(wizkid => {
-    return wizkid.id.toString().toLowerCase().includes(query) ||
-           wizkid.name.toLowerCase().includes(query) ||
-           wizkidRoleMap[wizkid.role].toLowerCase().includes(query);
-  });
-});
-
-let sortColumn = '';
-let sortDirection = 'asc';
-
-function sortTable(column) {
-  sortDirection = sortColumn === column ? -sortDirection : 1;
-
-  sortColumn = column;
-
-  wizkids.value.sort((a, b) => {
-    const aVal = a[sortColumn];
-    const bVal = b[sortColumn];
-
-    if (sortColumn === 'name') {
-      return sortDirection * aVal.localeCompare(bVal);
-    }
-
-    return sortDirection * (aVal - bVal);
+  fetchWizkids().then(data => {
+    wizkids.value = data;
   });
 
-  const sortingArrow = document.querySelector('.sorting-arrow');
-  if (sortingArrow) {
-    sortingArrow.classList.remove(sortDirection === 1 ? 'desc' : 'asc');
-    sortingArrow.classList.add(sortDirection === 1 ? 'asc' : 'desc');
+  const wizkidRoleMap = {
+    null: 'Guest',
+    1: 'Boss',
+    2: 'Developer',
+    3: 'Designer',
+    4: 'Intern'
+  };
+
+  const filteredWizkids = computed(() => {
+    const query = searchQuery.value.toLowerCase();
+
+    return wizkids.value.filter(wizkid => {
+      return wizkid.id.toString().toLowerCase().includes(query) ||
+             wizkid.name.toLowerCase().includes(query) ||
+             wizkidRoleMap[wizkid.role].toLowerCase().includes(query);
+    });
+  });
+
+  let sortColumn = '';
+  let sortDirection = 'asc';
+
+  function sortTable(column) {
+    sortDirection = sortColumn === column ? -sortDirection : 1;
+
+    sortColumn = column;
+
+    filteredWizkids.value.sort((a, b) => {
+      const sortA = a[column];
+      const sortB = b[column];
+
+      if (sortA < sortB) {
+        return sortDirection === 'asc' ? -1 : 1;
+      }
+      if (sortA > sortB) {
+        return sortDirection === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }
+
+  async function deleteWizkidById(id) {
+  const result = await deleteWizkid(id);
+  if (result) {
+    wizkids.value = wizkids.value.filter(w => w.id !== id);
   }
 }
-
-
-console.log(filteredWizkids)
 
 </script>
 

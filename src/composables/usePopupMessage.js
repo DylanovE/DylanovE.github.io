@@ -1,0 +1,42 @@
+import { createApp, defineComponent, ref, onMounted } from 'vue'
+
+export function usePopupMessage() {
+  const showPopup = ref(false)
+  const popup = document.createElement('div')
+  popup.classList.add('popup-message')
+
+  function showMessage(msg, isSuccess) {
+    const PopupComponent = defineComponent({
+      setup() {
+        popup.innerHTML = msg
+        if(isSuccess == 1){
+          popup.classList.add('green')
+        }else{
+          popup.classList.add('red')
+        }
+
+        onMounted(() => {
+          document.body.appendChild(popup)
+          popup.style.opacity = '1'
+          showPopup.value = true
+          setTimeout(() => {
+            popup.style.opacity = '0'
+            showPopup.value = false
+            setTimeout(() => {
+              document.body.removeChild(popup)
+            }, 500)
+          }, 2500)
+        })
+
+        return {}
+      }
+    })
+
+    const app = createApp(PopupComponent)
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    app.mount(el)
+  }
+
+  return { showMessage };
+}
