@@ -3,63 +3,58 @@
     <h3 class="float-start">WizKids</h3>
     <input class="float-end" v-model="searchQuery" placeholder="Search">
     <div class="wizkid-container container">
-    <table class="table table-striped">
-      <thead>
+      <table class="table table-striped">
+        <thead>
           <tr>
             <th class="sortable" @click="sortTable('id')">
-              <span v-if="sortColumn === 'id'">{{ sortDirection === 'asc' ? 'ID&#x25b4;' : 'ID&#x25be;' }}</span>
+              <span v-if="sortColumn === 'id'">{{ sortDirection === 1 ? 'ID&#x25b4;' : 'ID&#x25be;' }}</span>
               <span v-else>ID&#x25b4;&#x25be;</span>
             </th>
-            <th class="sortable" style="width: 45%" @click="sortTable('name')">
-              <span v-if="sortColumn === 'name'">{{ sortDirection === 'asc' ? 'Name&#x25b4;' : 'Name&#x25be;' }}</span>
+            <th class="sortable" @click="sortTable('name')">
+              <span v-if="sortColumn === 'name'">{{ sortDirection === 1 ? 'Name&#x25b4;' : 'Name&#x25be;' }}</span>
               <span v-else>Name&#x25b4;&#x25be;</span>
             </th>
             <th class="sortable" @click="sortTable('role')">
-              <span v-if="sortColumn === 'role'">{{ sortDirection === 'asc' ? 'Role&#x25b4;' : 'Role&#x25be;' }}</span>
+              <span v-if="sortColumn === 'role'">{{ sortDirection === 1 ? 'Role&#x25b4;' : 'Role&#x25be;' }}</span>
               <span v-else>Role&#x25b4;&#x25be;</span>
             </th>
-            <th/>
           </tr>
         </thead>
-      <tbody>
-        <tr v-for="wizkid in wizkids" :key="wizkid.id">
-          <td>{{ wizkid.id }}</td>
-          <td>{{ wizkid.name }}</td>
-          <td>{{ wizkidRoleMap[wizkid.role] }}</td>
-          <td>
-                  <svg @click="deleteWizkid(wizkid.id)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                    </path>
-                  </svg>
-                  <RouterLink :to="{ name: 'wizkids-update', params: {wizkidId: wizkid.id }, query: { name: wizkid.name, role: wizkid.role }}" style="color: var(--color-text);" >
-                    <svg   xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                      </path>
-                    </svg>
-                  </RouterLink>
-                  
-                </td>
-        </tr>
-        <!-- <tr v-if="!wizkids.length">
-            <td colspan="4">No wizkids found, maybe you made a typo.</td>
-          </tr> -->
-      </tbody>
-    </table>
+        <tbody>
+          <template v-if="filteredWizkids.length > 0">
+            <tr v-for="wizkid in filteredWizkids" :key="wizkid.id">
+              <td>{{ wizkid.id }}</td>
+              <td>{{ wizkid.name }}</td>
+              <td>{{ wizkidRoleMap[wizkid.role] }}</td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr>
+              <td colspan="3" class="text-center">No WizKids Found</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
     </div>
     <h5 class="float-end blue"><RouterLink :to="{ name: 'wizkids-create' }">Create wizkid</RouterLink></h5>
   </div>
 </template>
 
+
+
 <script setup>
 import { useCrudApi } from '../../composables/useCrudApi';
-// import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
+import { ref, computed } from 'vue';
 
-const {fetchWizkids}  = await useCrudApi();
-console.log( fetchWizkids);
-const searchQuery = '' ;
-const wizkids = await fetchWizkids();
+const { fetchWizkids } = useCrudApi();
 
+const searchQuery = ref('');
+const wizkids = ref([]);
+
+fetchWizkids().then(data => {
+  wizkids.value = data;
+});
 
 const wizkidRoleMap = {
   null: 'Guest',
@@ -69,17 +64,49 @@ const wizkidRoleMap = {
   4: 'Intern'
 };
 
-// const filteredWizkids = computed(() => {
-//   console.log('FILTER START')
-//   return wizkids.filter((wizkid) => {
-//     return (
-//       wizkid.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-//       wizkidRoleMap[wizkid].toLowerCase().includes(searchQuery.value) ||
-//       wizkid.id.toString().includes(searchQuery.value)
-//     );
-//   });
-// });
+const filteredWizkids = computed(() => {
+  const query = searchQuery.value.toLowerCase();
+  
+  return wizkids.value.filter(wizkid => {
+    return wizkid.id.toString().toLowerCase().includes(query) ||
+           wizkid.name.toLowerCase().includes(query) ||
+           wizkidRoleMap[wizkid.role].toLowerCase().includes(query);
+  });
+});
+
+let sortColumn = '';
+let sortDirection = 'asc';
+
+function sortTable(column) {
+  sortDirection = sortColumn === column ? -sortDirection : 1;
+
+  sortColumn = column;
+
+  wizkids.value.sort((a, b) => {
+    const aVal = a[sortColumn];
+    const bVal = b[sortColumn];
+
+    if (sortColumn === 'name') {
+      return sortDirection * aVal.localeCompare(bVal);
+    }
+
+    return sortDirection * (aVal - bVal);
+  });
+
+  const sortingArrow = document.querySelector('.sorting-arrow');
+  if (sortingArrow) {
+    sortingArrow.classList.remove(sortDirection === 1 ? 'desc' : 'asc');
+    sortingArrow.classList.add(sortDirection === 1 ? 'asc' : 'desc');
+  }
+}
+
+
+console.log(filteredWizkids)
+
 </script>
+
+
+
 
 <style scoped>
 th {
