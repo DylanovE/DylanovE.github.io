@@ -22,15 +22,6 @@ export default {
         );
       });
     },
-    wizkidRoleMap() {
-      return {
-        null: 'Guest',
-        1: 'Boss',
-        2: 'Developer',
-        3: 'Designer',
-        4: 'Intern'
-      }
-    },
     sortedWizkids() {
       const wizkids = [...this.filteredWizkids];
       if (this.sortColumn) {
@@ -154,7 +145,7 @@ export default {
 <template>
   <div class="container wizkids mt-4">
     <h3>WizKids View</h3>
-    <!-- <input class="float-start" v-model="searchQuery" placeholder="Search"> -->
+    <input class="float-start" v-model="searchQuery" placeholder="Search">
     <h5 class="float-end blue"><RouterLink :to="{ name: 'wizkids-create' }">Create wizkid</RouterLink></h5>
     <div class="wizkid-container container">
       <table class="table table-striped">

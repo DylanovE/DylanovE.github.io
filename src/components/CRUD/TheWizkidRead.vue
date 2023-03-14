@@ -40,9 +40,9 @@
                   
                 </td>
         </tr>
-        <tr v-if="!wizkids.length">
+        <!-- <tr v-if="!wizkids.length">
             <td colspan="4">No wizkids found, maybe you made a typo.</td>
-          </tr>
+          </tr> -->
       </tbody>
     </table>
     </div>
@@ -53,9 +53,13 @@
 <script setup>
 import { useCrudApi } from '../../composables/useCrudApi';
 // import { computed } from 'vue';
+import { RouterLink } from 'vue-router';
 
-const { wizkids } = useCrudApi();
-const { searchQuery } = '';
+const {fetchWizkids}  = await useCrudApi();
+console.log( fetchWizkids);
+const searchQuery = '' ;
+const wizkids = await fetchWizkids();
+
 
 const wizkidRoleMap = {
   null: 'Guest',
@@ -65,10 +69,8 @@ const wizkidRoleMap = {
   4: 'Intern'
 };
 
-console.log(wizkids) //is object with _rawValue that is a array, cant get the array somehow though to then filter it.
-
 // const filteredWizkids = computed(() => {
-//   console.log(wizkids.filter())
+//   console.log('FILTER START')
 //   return wizkids.filter((wizkid) => {
 //     return (
 //       wizkid.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||

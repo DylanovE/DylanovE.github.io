@@ -1,15 +1,13 @@
-import { ref } from 'vue';
 import axios from 'axios';
 import { Toast } from 'bootstrap';
 
 export function useCrudApi() {
   const apiUrl = 'http://localhost:8000/wizkids/';
-  const wizkids = ref([]);
 
   const fetchWizkids = async () => {
     try {
       const response = await axios.get(apiUrl);
-      wizkids.value = response.data.data;
+      return(response.data.data);
     } catch (error) {
       console.error(error);
       showErrorMessage(error.message);
@@ -26,8 +24,7 @@ export function useCrudApi() {
     }, 2000);
   };
 
-  // Initialize wizkids with empty array
   fetchWizkids();
 
-  return { wizkids, fetchWizkids };
+  return { fetchWizkids };
 }
