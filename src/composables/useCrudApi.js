@@ -29,7 +29,11 @@ export function useCrudApi() {
         default:
           throw new Error(`Invalid type: ${type}`);
       }
-      return response.data;
+      if (response) {
+        return response.data;
+      } else {
+        return [];
+      }
     } catch (error) {
       console.error(error.message);
       showMessage(error.message, 0);
@@ -40,3 +44,4 @@ export function useCrudApi() {
 
   return { CRUD };
 }
+// @click.prevent="$attrs.type === 'create' ? createWizkid() : updateWizkid()"

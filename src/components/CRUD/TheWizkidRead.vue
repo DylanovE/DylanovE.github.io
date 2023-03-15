@@ -32,7 +32,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                   </path>
                 </svg>
-                <svg @click="toggleUpdateForm(wizkid.id)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation">
+                <svg @click="togglePopup('update', wizkid)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                   </path>
                 </svg>
@@ -47,23 +47,18 @@
         </tbody>
       </table>
     </div>
-    <h5 class="float-end blue"><RouterLink :to="{ name: 'wizkids-create' }">Create wizkid</RouterLink></h5>
+    <h5 class="float-end blue pointer" @click="togglePopup('create')" >Create wizkid</h5>
   </div>
-  <updateComponent v-if="isPopupVisible" @close="isPopupVisible = false"/>
+  <popupForm v-if="isPopupVisible" :type="popupType" :wizkidData="wizkid" @close="isPopupVisible = false"/>
 </template>
 
-
-
-
 <script setup>
-  import updateComponent from '../CRUD/TheWizkidUpdate.vue';
+  import popupForm from '../CRUD/popupForm.vue';
   import { useCrudApi } from '../../composables/useCrudApi';
-  import { RouterLink } from 'vue-router';
   import { ref, computed } from 'vue';
 
-  //mapping roles
+  //mapping the roles
   const wizkidRoleMap = {
-    null: 'Guest',
     1: 'Boss',
     2: 'Developer',
     3: 'Designer',
@@ -123,11 +118,17 @@
     }
   }
 
-  //toggle the wizkid update component
+  //toggle the wizkid update/create popup component
   const isPopupVisible = ref(false)
-  
-  function toggleUpdateForm(wizkidRoleMap) {
-    isPopupVisible.value = !isPopupVisible.value
+  const popupType = ref();
+  const wizkid = ref();
+
+  function togglePopup(type, wizkidData) {
+    popupType.value = type;
+    wizkid.value = wizkidData;
+    if (popupType.value === 'create' || popupType.value === 'update') {
+      isPopupVisible.value = !isPopupVisible.value;
+    }
   }
 
 </script>

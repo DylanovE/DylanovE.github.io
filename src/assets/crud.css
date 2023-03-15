@@ -1,6 +1,5 @@
 th {
     color: var(--color-heading);
-    cursor: pointer;
   }
   
   td {
@@ -13,6 +12,10 @@ th {
     color: var(--color-heading);
   }
   
+  .pointer {
+    cursor: pointer;
+  }
+
   table {
     table-layout: fixed;
     word-wrap:break-word;
@@ -25,7 +28,7 @@ th {
     height: 40vh;
   }
   
-  svg {
+  svg, th {
     cursor: pointer;
   }
   

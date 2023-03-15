@@ -27,7 +27,7 @@ export function usePopupNotification() {
             setTimeout(() => {
               document.body.removeChild(popup)
             }, 500)
-          }, 2500)
+          }, 5000)
         })
 
         return {}
