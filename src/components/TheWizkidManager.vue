@@ -23,15 +23,15 @@
         </thead>
         <tbody>
           <template v-if="filteredWizkids.length > 0">
-            <tr v-for="wizkid in filteredWizkids" :key="wizkid.id" :data-id="wizkid.id">
-              <td>{{ wizkid.id }}</td>
-              <td>{{ wizkid.name }}</td>
-              <td>{{ wizkidRoleMap[wizkid.role] }}</td>
+            <tr v-for="filteredWizkid in filteredWizkids" :key="filteredWizkid.id" :data-id="filteredWizkid.id">
+              <td>{{ filteredWizkid.id }}</td>
+              <td>{{ filteredWizkid.name }}</td>
+              <td>{{ wizkidRoleMap[filteredWizkid.role] }}</td>
               <td>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" @click="deleteWizkidById(wizkid.id)" >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" @click="deleteWizkidById(filteredWizkid.id)" >
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" @click="togglePopup('update', wizkid)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" @click="togglePopup('update', filteredWizkid)">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               </td>
@@ -47,7 +47,7 @@
     </div>
     <h5 class="float-right blue pointer" @click="togglePopup('create')" >Create wizkid</h5>
   </div>
-  <popupForm v-if="isPopupVisible" :type="popupType" :wizkid-data="wizkid" @close="isPopupVisible = false" @refresh="rerenderTable()"/>
+  <popupForm v-if="isPopupVisible" :type="popupType" :wizkid-data="wizkid" @close="isPopupVisible = false" @refresh="renderWizkids()"/>
 </template>
 
 <script setup>

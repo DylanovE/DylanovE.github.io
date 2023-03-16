@@ -100,8 +100,8 @@
       if (data === 'error') {
         console.log('something went wrong while updating the wizkid.')
       } else {
-        emit('refresh')
         emit('close')
+        emit('refresh')
       }
     })
   }
