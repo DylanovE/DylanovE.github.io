@@ -15,7 +15,7 @@ export function useCrudApi() {
           response = await axios.get(apiUrl);
           return response.data.data;
         case 'create':
-          await axios.post(apiUrl, wizkid);
+          response = await axios.post(apiUrl, wizkid);
           showMessage('Wizkid created successfully', 'success');
           break;
         case 'update':
@@ -36,12 +36,15 @@ export function useCrudApi() {
       }
     } catch (error) {
       console.error(error.message);
-      showMessage(error.message, 0);
-      return null;
+      if (error.response.status === 422, type === 'create') {
+        showMessage('email is wrong or already being used.', 0);
+      } else {
+        showMessage(error.message, 0);
+      }
+      return error;
     }
   };
   
 
   return { CRUD };
 }
-// @click.prevent="$attrs.type === 'create' ? createWizkid() : updateWizkid()"

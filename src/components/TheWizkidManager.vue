@@ -23,7 +23,7 @@
         </thead>
         <tbody>
           <template v-if="filteredWizkids.length > 0">
-            <tr v-for="wizkid in filteredWizkids" :key="wizkid.id">
+            <tr v-for="wizkid in filteredWizkids" :key="wizkid.id" :data-id="wizkid.id">
               <td>{{ wizkid.id }}</td>
               <td>{{ wizkid.name }}</td>
               <td>{{ wizkidRoleMap[wizkid.role] }}</td>
@@ -49,73 +49,74 @@
     </div>
     <h5 class="float-end blue pointer" @click="togglePopup('create')" >Create wizkid</h5>
   </div>
-  <popupForm v-if="isPopupVisible" :type="popupType" :wizkidData="wizkid" @close="isPopupVisible = false"/>
+  <popupForm v-if="isPopupVisible" :type="popupType" :wizkidData="wizkid" @close="isPopupVisible = false" @refresh="rerenderTable()"/>
 </template>
 
 <script setup>
-  import popupForm from '../CRUD/popupForm.vue';
-  import { useCrudApi } from '../../composables/useCrudApi';
+  import popupForm from './popupForm.vue';
+  import { useCrudApi } from '../composables/useCrudApi';
   import { ref, computed } from 'vue';
 
-  //mapping the roles
   const wizkidRoleMap = {
+    null: '',
     1: 'Boss',
     2: 'Developer',
     3: 'Designer',
     4: 'Intern'
   };
 
+  const sortColumn = ref('id');
+  const sortDirection = ref(1);
+  const wizkids = ref([]);
+
   //filter function for searching wizkids
   const searchQuery = ref('');
 
-  const filteredWizkids = computed(() => {
+  const filteredWizkids = computed((column) => {
     const query = searchQuery.value.toLowerCase();
 
     return wizkids.value.filter(wizkid => {
       return wizkid.id.toString().toLowerCase().includes(query) ||
              wizkid.name.toLowerCase().includes(query) ||
              wizkidRoleMap[wizkid.role].toLowerCase().includes(query);
-    });
+    }).sort((b, a) => {
+      console.log('sorting!')
+        if (a[column] < b[column]) return -1 * sortDirection.value;
+        if (a[column] > b[column]) return sortDirection.value;
+        return 0;
+      });
   });
 
-  //sorting function to sort by any data of a wizkid
-  let sortColumn = '';
-  let sortDirection = 'asc';
-
   function sortTable(column) {
-    sortDirection = sortColumn === column ? -sortDirection : 1;
-
-    sortColumn = column;
-
-    filteredWizkids.value.sort((a, b) => {
-      const sortA = a[column];
-      const sortB = b[column];
-
-      if (sortA < sortB) {
-        return sortDirection === 'asc' ? -1 : 1;
+      if (sortColumn.value === column) {
+        sortDirection.value *= -1;
+      } else {
+        sortColumn.value = column;
+        sortDirection.value *= +1;
       }
-      if (sortA > sortB) {
-        return sortDirection === 'asc' ? 1 : -1;
-      }
-      return 0;
-    });
-  }
+      wizkids.value.sort();
+    }
+
 
   //Create Read Update Delete functions!
   const { CRUD } = useCrudApi();
-  const wizkids = ref([]);
 
   //fetch all wizkids
   CRUD('read').then(data => {
+    if (data === 'error') {
+        console.log('email is wrong or already being used.')
+      }
     wizkids.value = data;
   });
   
   //delete a wizkid
   async function deleteWizkidById(id) {
-    const result = await CRUD('delete', id);
-    if (!result) {
-      wizkids.value = wizkids.value.filter(w => w.id !== id);
-    }
+    await CRUD('delete', id).then(data => {
+      if (data === 'error') {
+        console.log('email is wrong or already being used.')
+      }
+    })
+    rerenderTable();
   }
 
   //toggle the wizkid update/create popup component
@@ -125,10 +126,23 @@
 
   function togglePopup(type, wizkidData) {
     popupType.value = type;
-    wizkid.value = wizkidData;
+    if(wizkidData){
+      wizkid.value = wizkidData;  
+    }else{
+      wizkid.value = '';
+    }
     if (popupType.value === 'create' || popupType.value === 'update') {
       isPopupVisible.value = !isPopupVisible.value;
     }
+  }
+  
+  function rerenderTable() {
+    CRUD('read').then(data => {
+      if (data === 'error') {
+          console.log('email is wrong or already being used.')
+        }
+      wizkids.value = data;
+    });
   }
 
 </script>

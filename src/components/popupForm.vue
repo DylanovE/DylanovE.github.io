@@ -13,16 +13,16 @@
           <option v-for="(value, key) in state.roles" :value="key" :key="key">{{ value }}</option>
         </select>
       </div>
-      <div class="form-group" v-if="$attrs.type !== 'update'">
+      <div class="form-group" v-if="props.type !== 'update'">
         <label for="email">Email:</label>
         <input type="email" id="email" v-model="state.email" required>
       </div>
       <div class="align-self-center">
-        <button type="submit" class="blue" @click.prevent="submitForm($attrs.type)">
-          {{ $attrs.type }} Wizkid
+        <button type="submit" class="blue" @click.prevent="submitForm(props.type)">
+          {{ props.type }} Wizkid
         </button>
-        <button type="submit" class="blue" @click.prevent="submitForm($attrs.type, 'noClose')" v-if="$attrs.type !== 'update'">
-          {{ $attrs.type }} &amp; add another
+        <button type="submit" class="blue" @click.prevent="submitForm(props.type, 'noClose')" v-if="props.type !== 'update'">
+          {{ props.type }} &amp; add another
         </button>
       </div>
       </form>
@@ -31,17 +31,26 @@
 </template>
 
 <script setup>
-  import { reactive, useAttrs } from 'vue';
-  import { useCrudApi } from '../../composables/useCrudApi';
+  import { reactive, defineEmits } from 'vue';
+  import { useCrudApi } from '../composables/useCrudApi';
 
-  const attrs = useAttrs()
+  const props = defineProps({
+      wizkidData: {
+          type: null,
+          default: undefined
+      },
+      type: {
+          type: String,
+          default: ''
+      }
+  });
   
-  const emit = defineEmits(['close'])
+  const emit = defineEmits(['close', 'refresh'])
 
   const state = reactive({
-    name: attrs.wizkidData.name,
-    role: attrs.wizkidData.role,
-    email: attrs.wizkidData.email,
+    name: props.wizkidData.name,
+    role: props.wizkidData.role,
+    email: props.wizkidData.email,
     roles: {
       1: 'Boss',
       2: 'Developer',
@@ -56,7 +65,7 @@
   function submitForm(type, noClose) {
     const form = document.querySelector('form');
     if (form.checkValidity()) {
-      type === 'create' ? createWizkid(noClose) : updateWizkid();
+      props.type === 'create' ? createWizkid(noClose) : updateWizkid();
     } else {
       form.reportValidity();
     }
@@ -69,20 +78,32 @@
       role: parseInt(state.role),
       email: state.email,
     };
-    await CRUD('create', '', wizkid);
-    if (!noClose) {
-      emit('close')
-    }
+    console.log(wizkid)
+    await CRUD('create', '', wizkid).then(data => {
+      if (data === 'error') {
+        console.log('email is wrong or already being used.')
+      } else if (!noClose) {
+        emit('refresh')
+        emit('close')
+      }
+    })
   }
-
+  
   //create a wizkid
-  async function updateWizkid(id) {
+  async function updateWizkid() {
     const wizkid = {
       name: state.name,
       role: parseInt(state.role),
     };
 
-    await CRUD('update', id, wizkid);
+    await CRUD('update', props.wizkidData.id, wizkid).then(data => {
+      if (data === 'error') {
+        console.log('something went wrong while updating the wizkid.')
+      } else {
+        emit('refresh')
+        emit('close')
+      }
+    })
   }
 
   </script>
