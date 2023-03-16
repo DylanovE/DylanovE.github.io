@@ -1,6 +1,7 @@
 # My-First-VueVite-Project
 
-This template should help get you started developing with Vue 3 in Vite.
+in here you will find the steps to help you setup my first vue 3 application.
+note: can also be done with yarn.
 
 ## Recommended IDE Setup
 
