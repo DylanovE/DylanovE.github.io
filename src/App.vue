@@ -24,6 +24,7 @@ export default {
       <nav style="align-items: center;">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/wizkids-manager">Wizkids manager</RouterLink>
+        <RouterLink to="/login">login</RouterLink>
       </nav>
     </div>
   </header>
