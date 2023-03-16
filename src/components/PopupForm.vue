@@ -44,7 +44,7 @@
           default: ''
       }
   });
-  
+
   const emit = defineEmits(['close', 'refresh'])
 
   const state = reactive({
@@ -106,4 +106,4 @@
     })
   }
 
-  </script>
+</script>  
