@@ -4,24 +4,24 @@
       <form>
         <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" v-model="state.name" required>
+        <input id="name" v-model="state.name" type="text" required>
       </div>
       <div class="form-group">
         <label for="role">Role:</label>
         <select id="role" v-model="state.role" required>
           <option value="" disabled>Select a role</option>
-          <option v-for="(value, key) in state.roles" :value="key" :key="key">{{ value }}</option>
+          <option v-for="(value, key) in state.roles" :key="key" :value="key">{{ value }}</option>
         </select>
       </div>
-      <div class="form-group" v-if="props.type !== 'update'">
+      <div v-if="props.type !== 'update'" class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" v-model="state.email" required>
+        <input id="email" v-model="state.email" type="email" required>
       </div>
       <div class="align-self-center">
         <button type="submit" class="blue" @click.prevent="submitForm(props.type)">
           {{ props.type }} Wizkid
         </button>
-        <button type="submit" class="blue" @click.prevent="submitForm(props.type, 'noClose')" v-if="props.type !== 'update'">
+        <button v-if="props.type !== 'update'" type="submit" class="blue" @click.prevent="submitForm(props.type, 'noClose')">
           {{ props.type }} &amp; add another
         </button>
       </div>
