@@ -16,12 +16,13 @@ export default {
 </script>
 <template>
   <header>
+
     <WizardTuxLogo/>
 
     <div class="wrapper">
       <TheHelloWorld/>
 
-      <nav style="align-items: center;">
+      <nav class="align-items-center">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/wizkids-manager">Wizkids manager</RouterLink>
         <RouterLink to="/login">login</RouterLink>

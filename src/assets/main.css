@@ -4,7 +4,6 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-
   font-weight: normal;
 }
 
@@ -35,12 +34,6 @@ a,
 .green {
   color: rgb(0, 255, 0);
 }
-
-.logo {
-  display: block;
-  margin: 0 2rem 0 0;
-  float: left;
-  }
 
 @media (min-width: 1024px) {
   body {
@@ -125,6 +118,19 @@ a,
   .wizkids h3 {
     padding: 0.5rem;
   }
+
+  /* used in popupForm.vue */
+  .login-form {
+    width: 60%;
+    margin: auto;
+  }
+
+@media (max-width: 625px) {
+  .login-form {
+    width: 100%;
+    margin: auto;
+  }
+}
 
   /* used in popupForm.vue */
   .overlay {

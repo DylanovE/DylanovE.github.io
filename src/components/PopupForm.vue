@@ -28,7 +28,7 @@
         </form>
       </div>
     </div>
-  </template>
+</template>
   
   <script setup>
     import { reactive, defineEmits } from 'vue';
