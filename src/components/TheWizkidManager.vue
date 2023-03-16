@@ -1,7 +1,7 @@
 <template>
   <div class="container wizkids mt-4">
-    <h3 class="float-start">WizKids</h3>
-    <input class="float-end" v-model="searchQuery" placeholder="Search">
+    <h3 class="float-left">WizKids</h3>
+    <input class="float-right" v-model="searchQuery" placeholder="Search">
     <div class="wizkid-container container">
       <table class="table table-striped">
         <thead>
@@ -29,12 +29,10 @@
               <td>{{ wizkidRoleMap[wizkid.role] }}</td>
               <td>
                 <svg @click="deleteWizkidById(wizkid.id)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
                 <svg @click="togglePopup('update', wizkid)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               </td>
             </tr>
@@ -47,67 +45,70 @@
         </tbody>
       </table>
     </div>
-    <h5 class="float-end blue pointer" @click="togglePopup('create')" >Create wizkid</h5>
+    <h5 class="float-right blue pointer" @click="togglePopup('create')" >Create wizkid</h5>
   </div>
   <popupForm v-if="isPopupVisible" :type="popupType" :wizkidData="wizkid" @close="isPopupVisible = false" @refresh="rerenderTable()"/>
 </template>
 
 <script setup>
-  import popupForm from './popupForm.vue';
-  import { useCrudApi } from '../composables/useCrudApi';
-  import { ref, computed } from 'vue';
+  import popupForm from './PopupForm.vue'
+  import { useCrudApi } from '../composables/useCrudApi'
+  import { ref, computed } from 'vue'
 
+
+  const { CRUD } = useCrudApi()
+  const wizkids = ref([])
+  const wizkid = ref({})
+  const searchQuery = ref('')
+  const sortColumn = ref('id')
+  const sortDirection = ref(-1)
+  const isPopupVisible = ref(false)
+  const popupType = ref('')
   const wizkidRoleMap = {
     null: '',
     1: 'Boss',
     2: 'Developer',
     3: 'Designer',
     4: 'Intern'
-  };
+  }
 
-  const sortColumn = ref('id');
-  const sortDirection = ref(1);
-  const wizkids = ref([]);
+  renderWizkids()
 
-  //filter function for searching wizkids
-  const searchQuery = ref('');
-
-  const filteredWizkids = computed((column) => {
-    const query = searchQuery.value.toLowerCase();
+  //filter wizkids when a constant is changed and sort them aswell
+  const filteredWizkids = computed(() => {
+    const query = searchQuery.value.toLowerCase()
+    const column = sortColumn.value
 
     return wizkids.value.filter(wizkid => {
       return wizkid.id.toString().toLowerCase().includes(query) ||
              wizkid.name.toLowerCase().includes(query) ||
-             wizkidRoleMap[wizkid.role].toLowerCase().includes(query);
+             wizkidRoleMap[wizkid.role].toLowerCase().includes(query)
     }).sort((b, a) => {
-      console.log('sorting!')
-        if (a[column] < b[column]) return -1 * sortDirection.value;
-        if (a[column] > b[column]) return sortDirection.value;
-        return 0;
-      });
-  });
+        if (a[column] < b[column]) return -1 * sortDirection.value
+        if (a[column] > b[column]) return sortDirection.value
+        return 0
+      })
+  })
 
+  //change the sorting constant to asc or desc the table
   function sortTable(column) {
-      if (sortColumn.value === column) {
-        sortDirection.value *= -1;
-      } else {
-        sortColumn.value = column;
-        sortDirection.value *= +1;
-      }
-      wizkids.value.sort();
+    if (sortColumn.value === column) {
+      sortDirection.value *= -1
+    } else {
+      sortColumn.value = column
+      sortDirection.value = 1
     }
-
-
-  //Create Read Update Delete functions!
-  const { CRUD } = useCrudApi();
-
+  }
+  
   //fetch all wizkids
-  CRUD('read').then(data => {
-    if (data === 'error') {
-        console.log('email is wrong or already being used.')
-      }
-    wizkids.value = data;
-  });
+  function renderWizkids() {
+      CRUD('read').then(data => {
+      if (data === 'error') {
+          console.log('something wen wrong while fetching the wizkids!')
+        }
+      wizkids.value = data
+    })
+  }
   
   //delete a wizkid
   async function deleteWizkidById(id) {
@@ -116,33 +117,19 @@
         console.log('email is wrong or already being used.')
       }
     })
-    rerenderTable();
+    renderWizkids()
   }
 
   //toggle the wizkid update/create popup component
-  const isPopupVisible = ref(false)
-  const popupType = ref();
-  const wizkid = ref();
-
   function togglePopup(type, wizkidData) {
-    popupType.value = type;
+    popupType.value = type
     if(wizkidData){
-      wizkid.value = wizkidData;  
+      wizkid.value = wizkidData
     }else{
-      wizkid.value = '';
+      wizkid.value = ''
     }
     if (popupType.value === 'create' || popupType.value === 'update') {
-      isPopupVisible.value = !isPopupVisible.value;
+      isPopupVisible.value = !isPopupVisible.value
     }
   }
-  
-  function rerenderTable() {
-    CRUD('read').then(data => {
-      if (data === 'error') {
-          console.log('email is wrong or already being used.')
-        }
-      wizkids.value = data;
-    });
-  }
-
 </script>

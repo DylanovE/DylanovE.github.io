@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" @click="$emit('close')">
+  <div class="overlay pointer" @click="$emit('close')">
     <div class="form-card" @click.stop>
       <form>
         <div class="form-group">
