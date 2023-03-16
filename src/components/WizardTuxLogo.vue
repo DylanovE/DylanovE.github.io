@@ -13,8 +13,8 @@
         alt="Wizard Tux Logo"
         class="logo"
         src="@/assets/logo.svg"
-        @click="yourAWizkid"
         width="125"
         height="125"
+        @click="yourAWizkid"
         />
     </template>
