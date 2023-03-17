@@ -7,6 +7,13 @@
   font-weight: normal;
 }
 
+.dropdown-menu {
+  background-color: var(--vt-c-black-soft);
+  border: 1px solid var(--color-border);
+  color: white;
+  min-width: 5.5rem;
+}
+
 .popup-message {
   background-color: var(--vt-c-black-soft);
   border: 1px solid var(--color-border);
