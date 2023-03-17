@@ -30,10 +30,11 @@ import { usePopupNotification } from '../composables/usePopupNotification';
   const login = async () => {
       try {
         const user = { email: email.value, password: password.value };
+
         const response = await axios.post(apiUrl, user);
         console.log(response)
         showMessage('login successful!', 'success');
-        console.log(response.data)
+        sessionStorage.apiToken = response.data.apiToken
       } catch (error) {
         showMessage(error.response.data.message, 0);
       }
