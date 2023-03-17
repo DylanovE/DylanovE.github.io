@@ -18,10 +18,10 @@
           <input id="email" v-model="state.email" type="email" required>
         </div>
         <div class="align-self-center">
-          <button type="submit" class="blue" @click.prevent="submitForm(props.type)">
+          <button type="submit" class="blue" required @click.prevent="submitForm()">
             {{ props.type }} Wizkid
           </button>
-          <button v-if="props.type !== 'update'" type="submit" class="blue" @click.prevent="submitForm(props.type, 'noClose')">
+          <button v-if="props.type !== 'update'" type="submit" class="blue" required @click.prevent="submitForm('noClose')">
             {{ props.type }} &amp; add another
           </button>
         </div>
@@ -62,14 +62,14 @@
     const { CRUD } = useCrudApi();
   
     //check form validity
-    function submitForm(type, noClose) {
-      const form = document.querySelector('form');
-      if (form.checkValidity()) {
-        props.type === 'create' ? createWizkid(noClose) : updateWizkid();
-      } else {
-        form.reportValidity();
-      }
+    function submitForm(noClose) {
+    const form = document.querySelector('form');
+    if (form.checkValidity()) {
+      props.type === 'create' ? createWizkid(noClose) : updateWizkid();
+    } else {
+      form.reportValidity();
     }
+  }
   
     //create a wizkid
     async function createWizkid(noClose) {
@@ -78,8 +78,9 @@
         role: parseInt(state.role),
         email: state.email,
       };
-      console.log(wizkid)
+      
       await CRUD('create', '', wizkid).then(data => {
+      console.log(noClose)
         if (data === 'error') {
           console.log('email is wrong or already being used.')
         } else if (!noClose) {
