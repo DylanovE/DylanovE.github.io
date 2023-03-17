@@ -21,11 +21,12 @@ export function useCrudApi() {
           showMessage('Wizkid created successfully', 'success');
           break;
         case 'update':
-          await axios.put(`${apiUrl}/${id}/${wizkid}?token=${apiToken}`);
+          await axios.put(`${apiUrl}${id}/${wizkid}?token=${apiToken}`);
           showMessage('Wizkid updated successfully', 'success');
           break;
         case 'delete':
-          await axios.delete(`${apiUrl}/${id}/?token=${apiToken}`);
+          console.log(`${apiUrl}${id}/?token=${apiToken}`)
+          await axios.delete(`${apiUrl}${id}/?token=${apiToken}`);
           showMessage('Wizkid deleted successfully', 'success');
           return !!response;
         default:
@@ -40,6 +41,7 @@ export function useCrudApi() {
       console.error(error.message);
       if (error.response.status === 422, type === 'create') {
         showMessage('email is wrong or already being used.', 0);
+        return 'error'
       } else {
         showMessage(error.message, 0);
       }
