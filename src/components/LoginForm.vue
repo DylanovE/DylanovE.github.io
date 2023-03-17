@@ -20,6 +20,10 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { usePopupNotification } from '../composables/usePopupNotification';
   
+  if (sessionStorage.apiToken) {
+        location.replace('/');
+      }
+
   const { showMessage } = usePopupNotification();
 
   const apiUrl = 'http://localhost:8000/auth/login';  
@@ -35,6 +39,7 @@ import { usePopupNotification } from '../composables/usePopupNotification';
         console.log(response)
         showMessage('login successful!', 'success');
         sessionStorage.apiToken = response.data.apiToken
+        location.replace('/');
       } catch (error) {
         showMessage(error.response.data.message, 0);
       }
