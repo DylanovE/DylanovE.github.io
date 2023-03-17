@@ -17,15 +17,14 @@ export function useCrudApi() {
           response = await axios.get(`${apiUrl}?token=${apiToken}`);
           return response.data.data;
         case 'create':
-          response = await axios.post(`${apiUrl}${wizkid}?token=${apiToken}`);
+          response = await axios.post(apiUrl, wizkid, `/?token=${apiToken}`);
           showMessage('Wizkid created successfully', 'success');
           break;
         case 'update':
-          await axios.put(`${apiUrl}${id}/${wizkid}?token=${apiToken}`);
+          await axios.put(`${apiUrl}${id}/`, wizkid, `/?token=${apiToken}`);
           showMessage('Wizkid updated successfully', 'success');
           break;
         case 'delete':
-          console.log(`${apiUrl}${id}/?token=${apiToken}`)
           await axios.delete(`${apiUrl}${id}/?token=${apiToken}`);
           showMessage('Wizkid deleted successfully', 'success');
           return !!response;

@@ -80,7 +80,6 @@
       };
       
       await CRUD('create', '', wizkid).then(data => {
-      console.log(noClose)
         if (data === 'error') {
           console.log('email is wrong or already being used.')
         } else if (!noClose) {
