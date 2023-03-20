@@ -17,6 +17,10 @@
           <label for="email">Email:</label>
           <input id="email" v-model="state.email" type="email" required>
         </div>
+        <div v-if="props.type !== 'update'" class="form-group">
+          <label for="phoneNumber">phoneNumber:</label>
+          <input id="phoneNumber" v-model="state.phoneNumber" type="phoneNumber" required>
+        </div>
         <div class="align-self-center">
           <button type="submit" class="blue" required @click.prevent="submitForm()">
             {{ props.type }} Wizkid
@@ -51,6 +55,7 @@
       name: props.wizkidData.name,
       role: props.wizkidData.role,
       email: props.wizkidData.email,
+      phoneNumber: props.wizkidData.phoneNumber,
       roles: {
         1: 'Boss',
         2: 'Developer',
@@ -77,6 +82,7 @@
         name: state.name,
         role: parseInt(state.role),
         email: state.email,
+        phoneNumber: state.phoneNumber,
       };
       
       await CRUD('create', '', wizkid).then(data => {

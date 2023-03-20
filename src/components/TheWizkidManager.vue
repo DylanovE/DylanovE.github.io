@@ -8,6 +8,8 @@
             <tr>
               <SortableTableHeader :sort-direction="sortDirection" :sort-column="sortColumn"  :type="'id'" @sort="sortTable('id')"/>
               <SortableTableHeader :sort-direction="sortDirection" :sort-column="sortColumn"  :type="'name'" @sort="sortTable('name')"/>
+              <SortableTableHeader v-if="isLoggedIn" :sort-direction="sortDirection" :sort-column="sortColumn"  :type="'email'" @sort="sortTable('email')"/>
+              <SortableTableHeader v-if="isLoggedIn" :sort-direction="sortDirection" :sort-column="sortColumn"  :type="'phone'" @sort="sortTable('phone')"/>
               <SortableTableHeader :sort-direction="sortDirection" :sort-column="sortColumn"  :type="'role'" @sort="sortTable('role')"/>
               <th>
                 <span>Avatar</span>
@@ -30,17 +32,19 @@
               <tr v-for="filteredWizkid in filteredWizkids" :key="filteredWizkid.id" :data-id="filteredWizkid.id">
                 <td>{{ filteredWizkid.id }}</td>
                 <td>{{ filteredWizkid.name }}</td>
-                <td>{{ wizkidRoleMap[filteredWizkid?.role] }}</td>
-                <td><img :src="filteredWizkid.profilePicture?.thumbSm" alt="Avatar"/></td>
+                <td v-if="isLoggedIn">{{ filteredWizkid.email }}</td>
+                <td v-if="isLoggedIn">{{ filteredWizkid.phoneNumber }}</td>
+                <td>{{ wizkidRoleMap[filteredWizkid.role] }}</td>
+                <td><img :src="filteredWizkid.profilePicture?.thumbSm" alt="None"/></td>
                 <td>
-                  <div class="dropdown">
+                  <div v-if="isLoggedIn" class="dropdown">
                     <IconOptions />
                     
                     <div class="dropdown-menu p-3" aria-labelledby="dropdownFunctionsSvg">
-                    <IconEdit @edit="togglePopup('update', filteredWizkid)"/>
-                    <IconUnFire  @un-fire="unFireById(filteredWizkid.id)"/>
-                    <IconDelete @delete="deleteWizkidById(filteredWizkid.id)"/>
-                    <IconFire  @fire="fireById(filteredWizkid.id)"/>
+                    <IconEdit  @edit="togglePopup('update', filteredWizkid)" />
+                    <IconUnFire :wizkid="filteredWizkid.id" @rerender="renderWizkids()" />
+                    <IconDelete :wizkid="filteredWizkid.id" @rerender="renderWizkids()" />
+                    <IconFire :wizkid="filteredWizkid.id" @rerender="renderWizkids()" />
                     </div>
                   </div>
                 </td>
@@ -54,13 +58,13 @@
           </tbody>
         </table>
       </div>
-      <h5 class="float-right blue pointer" @click="togglePopup('create')" >Create wizkid</h5>
+      <h5 v-if="isLoggedIn" class="float-right blue pointer" @click="togglePopup('create')" >Create wizkid</h5>
     </div>
     <popupForm v-if="isPopupVisible" :type="popupType" :wizkid-data="wizkid" @close="isPopupVisible = false" @refresh="renderWizkids()"/>
 </template>
   
   <script setup>
-  import { useCrudApi } from '../composables/useCrudApi'
+    import { useCrudApi } from '../composables/useCrudApi'
     import SortableTableHeader from './SortableTableHeader.vue'
     import IconOptions from './icons/IconOptions.vue'
     import IconFilter from './icons/IconFilter.vue'
@@ -71,7 +75,7 @@
     import popupForm from './PopupForm.vue'
     import { ref, computed } from 'vue'
   
-  
+    const isLoggedIn = !!sessionStorage.apiToken;
     const { CRUD } = useCrudApi()
     const wizkids = ref([])
     const wizkid = ref({})
@@ -129,16 +133,6 @@
           }
         wizkids.value = data
       })
-    }
-    
-    //delete a wizkid
-    async function deleteWizkidById(id) {
-      await CRUD('delete', id).then(data => {
-        if (data === 'error') {
-          console.log('email is wrong or already being used.')
-        }
-      })
-      renderWizkids()
     }
   
     //toggle the wizkid update/create popup component
