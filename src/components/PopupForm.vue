@@ -31,7 +31,7 @@
 </template>
   
   <script setup>
-    import { reactive, defineEmits } from 'vue';
+    import { reactive } from 'vue';
     import { useCrudApi } from '../composables/useCrudApi';
   
     const props = defineProps({

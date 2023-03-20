@@ -4,6 +4,5 @@
   </svg>
 </template>
 <script setup>
-import { defineEmits } from 'vue';
 defineEmits(['fire'])
 </script>
