@@ -42,9 +42,7 @@
                     
                     <div class="dropdown-menu p-3" aria-labelledby="dropdownFunctionsSvg">
                     <IconEdit  @edit="togglePopup('update', filteredWizkid)" />
-                    <IconUnFire :wizkid="filteredWizkid.id" @rerender="renderWizkids()" />
                     <IconDelete :wizkid="filteredWizkid.id" @rerender="renderWizkids()" />
-                    <IconFire :wizkid="filteredWizkid.id" @rerender="renderWizkids()" />
                     </div>
                   </div>
                 </td>
@@ -69,8 +67,6 @@
     import IconOptions from './icons/IconOptions.vue'
     import IconFilter from './icons/IconFilter.vue'
     import IconDelete from './icons/IconDelete.vue'
-    import IconUnFire from './icons/IconUnFire.vue'
-    import IconFire from './icons/IconFire.vue'
     import IconEdit from './icons/IconEdit.vue'
     import popupForm from './PopupForm.vue'
     import { ref, computed } from 'vue'

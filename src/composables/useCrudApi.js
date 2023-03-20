@@ -21,13 +21,14 @@ export function useCrudApi() {
           showMessage('Wizkid created successfully', 'success');
           break;
         case 'update':
+          console.log(type, id, wizkid)
           await axios.put(`${apiUrl}${id}/`, wizkid, `/?token=${apiToken}`);
           showMessage('Wizkid updated successfully', 'success');
           break;
         case 'delete':
           await axios.delete(`${apiUrl}${id}/?token=${apiToken}`);
           showMessage('Wizkid deleted successfully', 'success');
-          return !!response;
+          break;
         default:
           throw new Error(`Invalid type: ${type}`);
       }

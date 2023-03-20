@@ -1,8 +1,0 @@
-<template>
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" class="inline-block" role="presentation" @click="$emit('fire')">
-    <path id="primary" d="M12,21c3.9,0,7-2,7-7S14,9,14,3c-3,2-4.37,4.1-5,8A5,5,0,0,1,7,8c-1,1-2,4-2,6C5,17.14,6.28,21,12,21Z" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" />
-  </svg>
-</template>
-<script setup>
-defineEmits(['fire'])
-</script>
