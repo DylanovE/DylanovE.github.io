@@ -76,7 +76,7 @@
     const wizkids = ref([])
     const wizkid = ref({})
     const searchQuery = ref('')
-    const filterRoles = ref(["1","2","3","4"])
+    const filterRoles = ref(["1", "2", "3", "4"])
     const sortColumn = ref()
     const sortDirection = ref(0)
     const isPopupVisible = ref(false)

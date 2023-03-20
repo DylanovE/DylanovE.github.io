@@ -76,7 +76,7 @@ a,
     color: rgb(0, 38, 255);
   }
 
-  .pointer, svg, th {
+  .pointer, svg {
     cursor: pointer;
   }
 
