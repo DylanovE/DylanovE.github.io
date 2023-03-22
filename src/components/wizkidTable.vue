@@ -8,7 +8,7 @@
               <th>Phone</th>
               <th>Role</th>
               <th>Avatar</th>
-              <WizkidFilter :role-map="wizkidRoleMap" @update="updateFilter"/>
+              <RoleFilter :role-map="wizkidRoleMap" @update="updateFilter"/>
             </tr>
           </thead>
           <tbody>
@@ -40,7 +40,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useCrudApi } from '../composables/useCrudApi'
-import WizkidFilter from './WizkidFilter.vue'
+import RoleFilter from './RoleFilter.vue'
 import IconDelete from './icons/IconDelete.vue'
 import IconEdit from './icons/IconEdit.vue'
 import IconOptions from './icons/IconOptions.vue'
@@ -48,8 +48,7 @@ import IconOptions from './icons/IconOptions.vue'
     const isLoggedIn = !!sessionStorage.apiToken;
     const { CRUD } = useCrudApi()
     const wizkids = ref([])
-    const searchQuery = ref('')
-    const filterRoles = ref([])  
+    const roleFilter = ref([])  
     const wizkidRoleMap = {
       1: 'Boss',
       2: 'Developer',
@@ -57,27 +56,32 @@ import IconOptions from './icons/IconOptions.vue'
       4: 'Intern'
     }
 
+    const props = defineProps({
+    search: {
+            type: String,
+            default: ''
+        }
+    });
+
     renderWizkids()
 
-    //filter wizkids when a constant is changed and sort them aswell
+    // filter wizkids on searchQuery and RoleFilter
     const filteredWizkids = computed(() => {
-      const query = searchQuery.value.toLowerCase()
-      const roles = filterRoles.value
+      const query = props.search
+      const roles = roleFilter.value
 
+      //if no roles to filter on, only filter on query.
       return wizkids.value.filter(wizkid => {
-        return wizkid.id.toString().toLowerCase().includes(query) ||
-               wizkid.name.toLowerCase().includes(query) ||
-               wizkidRoleMap[wizkid.role].toLowerCase().includes(query)
-      }).filter(wizkid => {
-        if (roles === undefined) {
-            return true
+        if (roles.length === 0) {
+        return wizkid.name.toLowerCase().includes(query)
         } else {
-        return roles.includes(wizkid.role.toString());
+        return wizkid.name.toLowerCase().includes(query) && roles.includes(wizkid.role.toString())
         }
       })
     })
 
-    //fetch all wizkids
+
+    //fetch all wizkids!
     function renderWizkids() {
         CRUD('read').then(data => {
         if (data === 'error') {
@@ -87,13 +91,13 @@ import IconOptions from './icons/IconOptions.vue'
       })
     }
 
-    //update filterRoles ref with the emitted data
+    //update roleFilter ref with the data emitted from RoleFilter
     function updateFilter(newData) {
-        const index = filterRoles.value.indexOf(newData);
+        const index = roleFilter.value.indexOf(newData);
       if (index === -1) {
-        filterRoles.value.push(newData);
+        roleFilter.value.push(newData);
       } else {
-        filterRoles.value.splice(index, 1);
+        roleFilter.value.splice(index, 1);
       }
     }
 </script>
