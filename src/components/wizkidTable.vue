@@ -24,7 +24,6 @@
         <td v-if="isLoggedIn">{{ filteredWizkid.phoneNumber }}</td>
         <td>{{ wizkidRoleMap[filteredWizkid.role] }}</td>
         <td><img :src="filteredWizkid.profilePicture?.thumbSm" alt="None"/></td>
-        <wizkidActions v-if="isLoggedIn"/>
         <td>
           <div class="dropdown">
             <IconOptions />

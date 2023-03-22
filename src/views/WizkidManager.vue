@@ -1,9 +1,9 @@
 <script setup>
-import TheWizkidManager from '@/components/TheWizkidManager.vue'
+import wizkidManager from '@/components/wizkidManager.vue'
 </script>
 
 <template>
   <main>
-    <TheWizkidManager />
+    <wizkidManager />
   </main>
 </template>
