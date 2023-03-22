@@ -15,12 +15,12 @@
               <tr v-for="filteredWizkid in filteredWizkids" :key="filteredWizkid.id" :data-id="filteredWizkid.id">
                 <td>{{ filteredWizkid.id }}</td>
                 <td>{{ filteredWizkid.name }}</td>
-                <td v-if="isLoggedIn">{{ filteredWizkid.email }}</td>
-                <td v-if="isLoggedIn">{{ filteredWizkid.phoneNumber }}</td>
+                <td v-if="isWizkid">{{ filteredWizkid.email }}</td>
+                <td v-if="isWizkid">{{ filteredWizkid.phoneNumber }}</td>
                 <td>{{ wizkidRoleMap[filteredWizkid.role] }}</td>
                 <td><img :src="filteredWizkid.profilePicture?.thumbSm" alt="None"/></td>
                 <td>
-                  <div v-if="isLoggedIn" class="dropdown">
+                  <div v-if="isWizkid" class="dropdown">
                     <IconOptions />
                     
                     <div class="dropdown-menu p-3" aria-labelledby="dropdownFunctionsSvg">
@@ -44,8 +44,8 @@ import RoleFilter from './RoleFilter.vue'
 import IconDelete from './icons/IconDelete.vue'
 import IconEdit from './icons/IconEdit.vue'
 import IconOptions from './icons/IconOptions.vue'
-  
-    const isLoggedIn = !!sessionStorage.apiToken;
+
+    const isWizkid = sessionStorage.length
     const { CRUD } = useCrudApi()
     const wizkids = ref([])
     const roleFilter = ref([])  
