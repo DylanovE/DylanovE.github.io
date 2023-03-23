@@ -6,7 +6,6 @@ export function useCrudApi() {
   const { showMessage } = usePopupNotification();
 
   const apiToken = sessionStorage.apiToken
-
   const apiUrl = 'http://localhost:8000/wizkids/';
 
   const CRUD = async (type, id, wizkid) => {
@@ -14,19 +13,35 @@ export function useCrudApi() {
       let response;
       switch (type) {
         case 'read':
-          response = await axios.get(`${apiUrl}?token=${apiToken}`);
+          response = await axios.get(apiUrl, {
+            headers: {
+              Authorization: `Bearer ${apiToken}`,
+            },
+          });
           return response.data.data;
         case 'create':
-          response = await axios.post(apiUrl, wizkid, `/?token=${apiToken}`);
+          response = await axios.post(apiUrl, wizkid, {
+            headers: {
+              Authorization: `Bearer ${apiToken}`,
+            },
+          });
           showMessage('Wizkid created successfully', 'success');
           break;
         case 'update':
           console.log(type, id, wizkid)
-          await axios.put(`${apiUrl}${id}/`, wizkid, `/?token=${apiToken}`);
+          await axios.put(`${apiUrl}${id}/`, wizkid, {
+            headers: {
+              Authorization: `Bearer ${apiToken}`,
+            },
+          });
           showMessage('Wizkid updated successfully', 'success');
           break;
         case 'delete':
-          await axios.delete(`${apiUrl}${id}/?token=${apiToken}`);
+          await axios.delete(`${apiUrl}${id}`, {
+            headers: {
+              Authorization: `Bearer ${apiToken}`,
+            },
+          });
           showMessage('Wizkid deleted successfully', 'success');
           break;
         default:
