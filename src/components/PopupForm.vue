@@ -3,6 +3,10 @@
       <div class="form-card" @click.stop>
         <form>
           <div class="form-group">
+            <label for="profile_picture">Profile Picture:<img v-if="state.profilePicture" :src="state.profilePicture?.thumbSm"  width="32" height="32" class="ms-2 mb-1"></label>
+            <input id="profile_picture" accept="image/*" type="file" @change="onFileChange" >
+          </div>
+          <div class="form-group">
           <label for="name">Name:</label>
           <input id="name" v-model="state.name" type="text" required>
         </div>
@@ -54,6 +58,7 @@
   
     const state = reactive({
       name: props.wizkidData.name,
+      profilePicture: props.wizkidData.profilePicture,
       role: props.wizkidData.role,
       email: props.wizkidData.email,
       phoneNumber: props.wizkidData.phoneNumber,
@@ -64,6 +69,20 @@
         4: 'Intern'
       },
     });
+
+    function onFileChange(e) {
+      const file = e.target.files[0];
+      if (!file) {
+        state.profilePicture = null;
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        state.profilePicture = reader.result;
+      };
+    }
+
   
     const { CRUD } = useCrudApi();
   
@@ -84,6 +103,7 @@
         role: parseInt(state.role),
         email: state.email,
         phoneNumber: state.phoneNumber,
+        profilePicture: state.profilePicture,
       };
       
       await CRUD('create', '', wizkid).then(data => {
