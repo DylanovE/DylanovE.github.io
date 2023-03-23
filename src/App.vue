@@ -1,35 +1,39 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import TheHelloWorld from '@/components/TheHelloWorld.vue'
-import WizardTuxLogo from '@/components/WizardTuxLogo.vue'
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
-</script>
-<script>
-export default {
-  computed: {
-    isWizkidsRoute() {
-      return this.$route.path.startsWith('/wizkids-');
-    },
-  },
-};
-</script>
 <template>
   <header>
+
     <WizardTuxLogo/>
 
     <div class="wrapper">
       <TheHelloWorld/>
 
-      <nav style="align-items: center;">
+      <nav class="align-items-center">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/wizkids-manager">Wizkids manager</RouterLink>
+        <RouterLink v-if="isLoggedIn" to="" @click="logout()">logout</RouterLink>
+        <RouterLink v-if="!isLoggedIn" to="/login">login</RouterLink>
+        
       </nav>
     </div>
   </header>
 
   <RouterView />
 </template>
+
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+import TheHelloWorld from '@/components/TheHelloWorld.vue'
+import WizardTuxLogo from '@/components/WizardTuxLogo.vue'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
+
+const isLoggedIn = !!sessionStorage.apiToken
+
+function logout() {
+  sessionStorage.clear()
+  location.reload();
+}
+</script>
+
 <style scoped>
 .dropdown-menu.show {
   background-color: var(--color-background-mute);
