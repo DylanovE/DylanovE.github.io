@@ -9,7 +9,7 @@
         <th>Role</th>
         <th>Avatar</th>
         <td>
-          <RoleFilter :role-map="wizkidRoleMap" @update="updateFilter"/>
+          <RoleFilter :role-map="wizkidRoleMap" @filter="updateFilter"/>
         </td>
       </tr>
       <tr v-if="filteredWizkids.length == 0">
@@ -25,10 +25,10 @@
         <td>{{ wizkidRoleMap[filteredWizkid.role] }}</td>
         <td><img :src="filteredWizkid.profilePicture?.thumbSm" alt="None"/></td>
         <td>
-          <div class="dropdown">
+          <div v-if="isLoggedIn" class="dropdown" >
             <IconOptions />
             <div class="dropdown-menu p-3" aria-labelledby="dropdownFunctionsSvg">
-              <IconEdit  @edit="$emit('edit', filteredWizkid)" />
+              <IconEdit @edit="$emit('edit', filteredWizkid)" />
               <IconDelete :wizkid="filteredWizkid.id" @rerender="fetchWizkids" />
             </div>
           </div>

@@ -4,7 +4,7 @@
             <IconFilter style="height: 100%;"/>
             <form class="dropdown-menu p-3" aria-labelledby="dropdownRoleFilterSvg">
                 <div v-for="(roleName, roleId) in roleMap" :key="roleId" class="form-check">
-                    <input :id="'role-' + roleId" v-model="filterRoles" class="form-check-input" type="checkbox" :value="roleId" @click="$emit('update', roleId)">
+                    <input :id="'role-' + roleId" v-model="filterRoles" class="form-check-input" type="checkbox" :value="roleId" @click="$emit('filter', roleId)">
                     <label class="form-check-label" :for="'role-' + roleId">{{ roleName }}</label>
                 </div>
             </form>
@@ -14,7 +14,7 @@
 <script setup>
 import IconFilter from './icons/IconFilter.vue'
 
-defineEmits(['update'])
+defineEmits(['filter'])
 
 defineProps({
     roleMap: {

@@ -4,5 +4,5 @@
   </svg>
 </template>
 <script setup>
-defineEmits(['edit'])
+defineEmits('edit')
 </script>

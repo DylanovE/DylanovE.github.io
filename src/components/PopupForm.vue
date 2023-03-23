@@ -13,11 +13,11 @@
             <option v-for="(value, key) in state.roles" :key="key" :value="key">{{ value }}</option>
           </select>
         </div>
-        <div v-if="props.type !== 'update'" class="form-group">
+        <div v-if="isLoggedIn" class="form-group">
           <label for="email">Email:</label>
           <input id="email" v-model="state.email" type="email" required>
         </div>
-        <div v-if="props.type !== 'update'" class="form-group">
+        <div v-if="isLoggedIn" class="form-group">
           <label for="phoneNumber">phoneNumber:</label>
           <input id="phoneNumber" v-model="state.phoneNumber" type="phoneNumber" required>
         </div>
@@ -38,6 +38,7 @@
     import { reactive } from 'vue';
     import { useCrudApi } from '../composables/useCrudApi';
   
+    const isLoggedIn = sessionStorage.length > 0  
     const props = defineProps({
         wizkidData: {
             type: null,
