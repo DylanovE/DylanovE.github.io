@@ -1,7 +1,26 @@
 # My-First-VueVite-Project
 
 in here you will find the steps to help you setup my first vue 3 application.
-note: can also be done with yarn.
+note: can also be done with yarn but will not be included in this README.
+
+## SRC directory structure idea:
+- src
+  - assets
+    - images
+    - fonts
+    - styles
+  - components
+    - forms
+    - icons
+    - user interface'
+  - composables
+    - scripts
+    - api
+  - router
+    - index.js
+  - views
+    - dashboards
+
 
 ## Recommended IDE Setup
 

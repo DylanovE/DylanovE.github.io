@@ -4,7 +4,7 @@
   </svg>
 </template>
 <script setup>
-import { useCrudApi } from '../../composables/useCrudApi'
+import { useCrudApi } from '@/composables/useCrudApi'
 
     const emit = defineEmits(['rerender'])
 

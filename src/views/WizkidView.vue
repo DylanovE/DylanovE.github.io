@@ -1,5 +1,5 @@
 <script setup>
-import wizkidManager from '@/components/wizkidManager.vue'
+import wizkidManager from '@/components/ui/wizkidManager.vue'
 </script>
 
 <template>

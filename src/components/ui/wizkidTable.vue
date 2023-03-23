@@ -2,7 +2,6 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Name</th>
         <th v-if="isLoggedIn">Email</th>
         <th v-if="isLoggedIn">Phone</th>
@@ -18,7 +17,6 @@
     </thead>
     <tbody>
       <tr v-for="filteredWizkid in filteredWizkids" :key="filteredWizkid.id" :data-id="filteredWizkid.id">
-        <td>{{ filteredWizkid.id }}</td>
         <td>{{ filteredWizkid.name }}</td>
         <td v-if="isLoggedIn">{{ filteredWizkid.email }}</td>
         <td v-if="isLoggedIn">{{ filteredWizkid.phoneNumber }}</td>
@@ -40,11 +38,11 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useCrudApi } from '../composables/useCrudApi'
-import RoleFilter from './RoleFilter.vue'
-import IconDelete from './icons/IconDelete.vue'
-import IconEdit from './icons/IconEdit.vue'
-import IconOptions from './icons/IconOptions.vue'
+import { useCrudApi } from '@/composables/useCrudApi'
+import RoleFilter from '@/components/ui/RoleFilter.vue'
+import IconDelete from '@/components/icons/IconDelete.vue'
+import IconEdit from '@/components/icons/IconEdit.vue'
+import IconOptions from '@/components/icons/IconOptions.vue'
 
 const isLoggedIn = sessionStorage.length > 0
 const { CRUD } = useCrudApi()

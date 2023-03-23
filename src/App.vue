@@ -4,11 +4,11 @@
     <WizardTuxLogo/>
 
     <div class="wrapper">
-      <TheHelloWorld/>
+      <HelloWorld />
 
       <nav class="align-items-center">
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/wizkids-manager">Wizkids manager</RouterLink>
+        <RouterLink to="/wizkid-manager">Wizkid manager</RouterLink>
         <RouterLink v-if="isLoggedIn" to="" @click="logout()">logout</RouterLink>
         <RouterLink v-if="!isLoggedIn" to="/login">login</RouterLink>
         
@@ -21,8 +21,8 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import TheHelloWorld from '@/components/TheHelloWorld.vue'
-import WizardTuxLogo from '@/components/WizardTuxLogo.vue'
+import HelloWorld from '@/components/ui/IntroductionText.vue'
+import WizardTuxLogo from '@/components/icons/IconWizardTux.vue'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 

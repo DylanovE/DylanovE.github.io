@@ -1,5 +1,5 @@
 <script setup>
-import WelcomeItem from '@/components/WelcomeItem.vue'
+import InformationItem from '@/components/ui/InformationItem.vue'
 import CommunityIcon from '@/components/icons/IconCommunity.vue'
 import DocumentationIcon from '@/components/icons/IconDocumentation.vue'
 import SupportIcon from '@/components/icons/IconSupport.vue'
@@ -7,7 +7,7 @@ import SupportIcon from '@/components/icons/IconSupport.vue'
 
 <template>
 
-  <WelcomeItem>
+  <InformationItem>
     <template #icon>
       <SupportIcon />
     </template>
@@ -15,9 +15,9 @@ import SupportIcon from '@/components/icons/IconSupport.vue'
     This assignment is made to validate the skills of potential new developers as an addition to
     OWOW. During this assignment you will be developing an application for OWOW, “Wizkid
     Manager 2000”.
-  </WelcomeItem>
+  </InformationItem>
 
-  <WelcomeItem>
+  <InformationItem>
     <template #icon>
       <DocumentationIcon />
     </template>
@@ -25,13 +25,13 @@ import SupportIcon from '@/components/icons/IconSupport.vue'
     Wizkid Manager 2000 is an application that is focused on managing the WizKids of OWOW.
     The application will provide features such as adding, viewing, updating, and deleting of
     WizKids.
-  </WelcomeItem>
+  </InformationItem>
 
-  <WelcomeItem>
+  <InformationItem>
     <template #icon>
       <CommunityIcon />
     </template>
     <template #heading>Soon...</template>
     There's nothing <a class="fw-semibold" href="https://http.cat/404" target="_blank" rel="noopener">here</a> yet!
-  </WelcomeItem>
+  </InformationItem>
 </template>

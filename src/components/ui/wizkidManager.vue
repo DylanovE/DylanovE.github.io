@@ -11,10 +11,10 @@
 </template>
 
 <script setup>
-import popupForm from './PopupForm.vue'
-import wizkidTable from './wizkidTable.vue'
+import popupForm from '@/components/forms/PopupForm.vue'
+import wizkidTable from '@/components/ui/wizkidTable.vue'
 import { ref } from 'vue'
-import usePopup from '../composables/usePopup'
+import usePopup from '@/composables/usePopup'
 
 const isLoggedIn = !!sessionStorage.apiToken;
 const { wizkid, isPopupVisible, popupType, togglePopup } = usePopup();

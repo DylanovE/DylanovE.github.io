@@ -40,7 +40,7 @@
   
   <script setup>
     import { reactive } from 'vue';
-    import { useCrudApi } from '../composables/useCrudApi';
+    import { useCrudApi } from '@/composables/useCrudApi';
   
     const isLoggedIn = sessionStorage.length > 0  
     const props = defineProps({

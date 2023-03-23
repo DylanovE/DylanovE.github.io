@@ -1,9 +1,9 @@
 <script setup>
-import Welcome from '@/components/TheWelcome.vue'
+import ProjectInformation from '@/components/ui/ProjectInformation.vue'
 </script>
 
 <template>
   <main>
-    <Welcome />
+    <ProjectInformation />
   </main>
 </template>

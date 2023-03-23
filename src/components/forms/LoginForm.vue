@@ -18,7 +18,7 @@
 <script setup>
 import axios from 'axios';
 import { ref } from 'vue';
-import { usePopupNotification } from '../composables/usePopupNotification';
+import { usePopupNotification } from '@/composables/usePopupNotification';
   
   if (sessionStorage.apiToken) {
         location.replace('/');

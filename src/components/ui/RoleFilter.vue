@@ -12,7 +12,7 @@
     </th>
 </template>
 <script setup>
-import IconFilter from './icons/IconFilter.vue'
+import IconFilter from '@/components/icons/IconFilter.vue'
 
 defineEmits(['filter'])
 
