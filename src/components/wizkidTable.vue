@@ -28,8 +28,8 @@
           <div class="dropdown">
             <IconOptions />
             <div class="dropdown-menu p-3" aria-labelledby="dropdownFunctionsSvg">
-              <IconEdit  @edit="togglePopup('update', filteredWizkid)" />
-              <IconDelete :wizkid="filteredWizkid.id" @rerender="updateFilter" />
+              <IconEdit  @edit="$emit('edit', filteredWizkid)" />
+              <IconDelete :wizkid="filteredWizkid.id" @rerender="fetchWizkids" />
             </div>
           </div>
         </td>
@@ -63,6 +63,8 @@ const props = defineProps({
     default: ''
   }
 })
+
+defineEmits('edit')
 
 onMounted(() => {
   fetchWizkids()
