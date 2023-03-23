@@ -4,7 +4,6 @@ import { usePopupNotification } from './usePopupNotification';
 export function useCrudApi() {
   
   const { showMessage } = usePopupNotification();
-
   const apiToken = sessionStorage.apiToken
   const apiUrl = 'http://localhost:8000/wizkids/';
 
@@ -64,6 +63,5 @@ export function useCrudApi() {
     }
   };
   
-
   return { CRUD };
 }
