@@ -5,7 +5,7 @@
         <FormFieldFileUpload v-model="state.profilePicture" :field="'Profile Picture:'" :type="'file'"/>
         <FormField v-model="state.name" :field="'Name'" :type="'text'"/>
         <FormFieldRoles v-model="state.role" :roles="state.roles"/>
-        <template v-if="sessionStorage.length > 0">
+        <template v-if="isLoggedIn">
           <FormField v-model="state.email" :field="'Email'" :type="'email'"/>
           <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'"/>
         </template>
@@ -24,6 +24,7 @@ import { reactive } from 'vue';
 import { useCrudApi } from '@/composables/useCrudApi';
 import FormFieldFileUpload from './FormFieldFileUpload.vue';
 
+const isLoggedIn = sessionStorage.length > 0;
 const props = defineProps({
   wizkidData: {
     type: null,
