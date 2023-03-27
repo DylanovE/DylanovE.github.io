@@ -18,7 +18,7 @@ defineEmits(['filter'])
 
 defineProps({
     roleMap: {
-            type: Array,
+            type: Object,
             default: undefined
         }
     });

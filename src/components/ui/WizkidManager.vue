@@ -1,5 +1,5 @@
 <template>
-  <div class="container wizkids mt-4">
+  <div>
     <h3 class="float-left">WizKids</h3>
     <input v-model="searchQuery" class="float-right" placeholder="Search">
     <div class="wizkid-container container">
