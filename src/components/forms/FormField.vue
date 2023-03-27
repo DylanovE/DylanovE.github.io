@@ -1,23 +1,29 @@
 <template>
-      <label :for="field">{{ field }}</label>
-      <input :id="field" :type="type" :value="modelValue" required @input="$emit('update:modelValue', $event.target.value)" >
+    <label :for="field">{{ field }}</label>
+    <input
+        :id="field"
+        :type="type"
+        :value="modelValue"
+        required
+        @input="$emit('update:modelValue', $event.target.value)"
+    />
 </template>
-  
+
 <script setup>
-  defineEmits(['update:modelValue']);
-  
-  defineProps({
+defineEmits(['update:modelValue']);
+
+defineProps({
     field: {
-      type: String,
-      default: '',
+        type: String,
+        default: '',
     },
     type: {
-      type: String,
-      default: 'text',
+        type: String,
+        default: 'text',
     },
     modelValue: {
-      type: String,
-      default: '',
+        type: String,
+        default: '',
     },
-  });
-  </script>
+});
+</script>

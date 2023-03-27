@@ -1,10 +1,17 @@
 <template>
     <th>
         <div class="dropdown">
-            <IconFilter style="height: 100%;"/>
+            <IconFilter style="height: 100%" />
             <form class="dropdown-menu p-3" aria-labelledby="dropdownRoleFilterSvg">
                 <div v-for="(roleName, roleId) in roleMap" :key="roleId" class="form-check">
-                    <input :id="'role-' + roleId" v-model="filterRoles" class="form-check-input" type="checkbox" :value="roleId" @click="$emit('filter', roleId)">
+                    <input
+                        :id="'role-' + roleId"
+                        v-model="filterRoles"
+                        class="form-check-input"
+                        type="checkbox"
+                        :value="roleId"
+                        @click="$emit('filter', roleId)"
+                    />
                     <label class="form-check-label" :for="'role-' + roleId">{{ roleName }}</label>
                 </div>
             </form>
@@ -12,14 +19,14 @@
     </th>
 </template>
 <script setup>
-import IconFilter from '@/components/icons/IconFilter.vue'
+import IconFilter from '@/components/icons/IconFilter.vue';
 
-defineEmits(['filter'])
+defineEmits(['filter']);
 
 defineProps({
     roleMap: {
-            type: Object,
-            default: undefined
-        }
-    });
+        type: Object,
+        default: undefined,
+    },
+});
 </script>

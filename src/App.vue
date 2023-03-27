@@ -1,36 +1,32 @@
 <template>
-  <header>
+    <header>
+        <div class="wrapper">
+            <WizardTuxLogo />
 
-    <WizardTuxLogo/>
+            <HelloWorld />
 
-    <div class="wrapper">
-      <HelloWorld />
+            <nav class="align-items-center">
+                <RouterLink to="/">Home</RouterLink>
+                <RouterLink to="/wizkid-manager">Wizkid manager</RouterLink>
+                <RouterLink v-if="isLoggedIn" to="" @click="logout()">logout</RouterLink>
+                <RouterLink v-if="!isLoggedIn" to="/login">login</RouterLink>
+            </nav>
+        </div>
+    </header>
 
-      <nav class="align-items-center">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/wizkid-manager">Wizkid manager</RouterLink>
-        <RouterLink v-if="isLoggedIn" to="" @click="logout()">logout</RouterLink>
-        <RouterLink v-if="!isLoggedIn" to="/login">login</RouterLink>
-        
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <RouterView />
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/ui/IntroductionText.vue'
-import WizardTuxLogo from '@/components/icons/IconWizardTux.vue'
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
-
-const isLoggedIn = !!sessionStorage.apiToken
-
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {RouterLink, RouterView} from 'vue-router';
+import HelloWorld from '@/components/ui/IntroductionText.vue';
+import WizardTuxLogo from '@/components/icons/IconWizardTux.vue';
+const isLoggedIn = !!sessionStorage.apiToken;
 function logout() {
-  sessionStorage.clear()
-  location.reload();
+    sessionStorage.clear();
+    location.reload();
 }
 </script>
 
@@ -39,16 +35,13 @@ function logout() {
   background-color: var(--color-background-mute);
   min-width: 0;
 }
-
 .dropdown-menu li {
   margin: 0 0 0.5rem 0;
 }
-
 header {
   line-height: 1.5;
   max-height: 100vh;
 }
-
 nav {
   width: 100%;
   font-size: 12px;
@@ -95,7 +88,6 @@ nav a:first-of-type {
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
-
     padding: 1rem 0;
     margin-top: 1rem;
   }

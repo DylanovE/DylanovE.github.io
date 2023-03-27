@@ -1,9 +1,9 @@
 <script setup>
-import ProjectInformation from '@/components/ui/ProjectInformation.vue'
+import ProjectInformation from '@/components/ui/ProjectInformation.vue';
 </script>
 
 <template>
-  <main>
-    <ProjectInformation />
-  </main>
+    <main>
+        <ProjectInformation />
+    </main>
 </template>
