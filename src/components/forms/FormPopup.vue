@@ -2,10 +2,7 @@
   <div class="overlay pointer" @click="$emit('close')">
     <div class="form-card" @click.stop>
       <form @submit.prevent="submitForm">
-        <label for="profile_picture">Profile Picture:
-          <img v-if="state.profilePicture" :src="state.profilePicture?.thumbSm || state.profilePicture" width="32" height="32" class="ms-2 mb-1">
-        </label>
-        <input id="profile_picture" accept="image/*" type="file" @change="onFileChange">
+        <FormFieldFileUpload v-model="state.profilePicture" :field="'Profile Picture:'" :type="'file'"/>
         <FormField v-model="state.name" :field="'Name'" :type="'text'"/>
         <FormFieldRoles v-model="state.role" :roles="state.roles"/>
         <template v-if="isLoggedIn">
@@ -26,8 +23,9 @@
 <script setup>
 import FormField from '@/components/forms/FormField.vue';
 import FormFieldRoles from '@/components/forms/FormFieldRoles.vue';
-import { defineProps, defineEmits, reactive } from 'vue';
+import { reactive } from 'vue';
 import { useCrudApi } from '@/composables/useCrudApi';
+import FormFieldFileUpload from './FormFieldFileUpload.vue';
 
 const isLoggedIn = sessionStorage.length > 0;
 const props = defineProps({
@@ -56,19 +54,6 @@ const state = reactive({
     4: 'Intern',
   },
 });
-
-function onFileChange(e) {
-  const file = e.target.files[0];
-  if (!file) {
-    state.profilePicture = null;
-    return;
-  }
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => {
-    state.profilePicture = reader.result;
-  };
-}
 
 const { CRUD } = useCrudApi();
 
