@@ -1,36 +1,34 @@
 <template>
-  <header>
+    <header>
+        <div class="wrapper">
+            <WizardTuxLogo/>
 
-    <WizardTuxLogo/>
+            <HelloWorld />
 
-    <div class="wrapper">
-      <HelloWorld />
+            <nav class="align-items-center">
+                <RouterLink to="/">Home</RouterLink>
+                <RouterLink to="/wizkid-manager">Wizkid manager</RouterLink>
+                <RouterLink v-if="isLoggedIn" to="" @click="logout()">logout</RouterLink>
+                <RouterLink v-if="!isLoggedIn" to="/login">login</RouterLink>
+            </nav>
+        </div>
+    </header>
 
-      <nav class="align-items-center">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/wizkid-manager">Wizkid manager</RouterLink>
-        <RouterLink v-if="isLoggedIn" to="" @click="logout()">logout</RouterLink>
-        <RouterLink v-if="!isLoggedIn" to="/login">login</RouterLink>
-        
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <RouterView />
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/ui/IntroductionText.vue'
-import WizardTuxLogo from '@/components/icons/IconWizardTux.vue'
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {RouterLink, RouterView} from 'vue-router';
+import HelloWorld from '@/components/ui/IntroductionText.vue';
+import WizardTuxLogo from '@/components/icons/IconWizardTux.vue';
 
-const isLoggedIn = !!sessionStorage.apiToken
+const isLoggedIn = !!sessionStorage.apiToken;
 
 function logout() {
-  sessionStorage.clear()
-  location.reload();
+    sessionStorage.clear();
+    location.reload();
 }
 </script>
 

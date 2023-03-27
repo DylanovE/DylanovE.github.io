@@ -12,14 +12,14 @@
     </th>
 </template>
 <script setup>
-import IconFilter from '@/components/icons/IconFilter.vue'
+import IconFilter from '@/components/icons/IconFilter.vue';
 
-defineEmits(['filter'])
+defineEmits(['filter']);
 
 defineProps({
     roleMap: {
-            type: Object,
-            default: undefined
-        }
-    });
+        type: Object,
+        default: undefined,
+    },
+});
 </script>
