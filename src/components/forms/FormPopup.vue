@@ -21,7 +21,7 @@
 
 <!--think of a way to make the script shorter than this-->
 <script setup>
-import FormButton from './FormButton.vue';
+import FormButton from './formComponents/FormButton.vue';
 import FormField from '@/components/forms/FormField.vue';
 import FormFieldFileUpload from '@/components/forms/FormFieldFileUpload.vue';
 import FormFieldRoles from '@/components/forms/FormFieldRoles.vue';
