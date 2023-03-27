@@ -1,14 +1,15 @@
 <template>
   <h1 class="text-center">Login</h1>
   <form @submit.prevent="login">
-    <FieldLogin v-model="email" :field="'Email'" :type="'email'"/>
-    <FieldLogin v-model="password" :field="'Password'" :type="'password'"/>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <FormField v-model="email" :field="'Email'" :type="'email'"/>
+    <FormField v-model="password" :field="'Password'" :type="'password'"/>
+    <FormButton :label="'Login'" class="blue"/>
   </form>
 </template>
   
 <script setup>
-import FieldLogin from './fields/FieldLogin.vue';
+import FormField from '@/components/forms/FormField.vue';
+import FormButton from '@/components/forms/FormButton.vue';
 import axios from 'axios';
 import { ref } from 'vue';
 import { usePopupNotification } from '@/composables/usePopupNotification';

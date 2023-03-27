@@ -6,20 +6,13 @@
           <img v-if="state.profilePicture" :src="state.profilePicture?.thumbSm || state.profilePicture" width="32" height="32" class="ms-2 mb-1">
         </label>
         <input id="profile_picture" accept="image/*" type="file" @change="onFileChange">
-        <label for="name">Name:</label>
-        <input id="name" v-model="state.name" type="text" required>
-        <label for="role">Role:</label>
-        <select id="role" v-model="state.role" required>
-          <option value="" disabled>Select a role</option>
-          <option v-for="(value, key) in state.roles" :key="key" :value="key">{{ value }}</option>
-        </select>
+        <FormField v-model="state.name" :field="'Name'" :type="'text'"/>
+        <FormFieldRoles v-model="state.role" :roles="state.roles"/>
         <template v-if="isLoggedIn">
-          <label for="email">Email:</label>
-          <input id="email" v-model="state.email" type="email" required>
-          <label for="phoneNumber">Phone Number:</label>
-          <input id="phoneNumber" v-model="state.phoneNumber" type="tel" required>
+          <FormField v-model="state.email" :field="'Email'" :type="'email'"/>
+          <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'"/>
         </template>
-        <button type="submit" class="blue" required>
+        <button type="submit" class="blue">
           {{ props.type }}
         </button>
         <button v-if="props.type !== 'update'" type="button" class="blue" @click="submitForm('noClose')">
@@ -31,6 +24,8 @@
 </template>
 
 <script setup>
+import FormField from '@/components/forms/FormField.vue';
+import FormFieldRoles from '@/components/forms/FormFieldRoles.vue';
 import { defineProps, defineEmits, reactive } from 'vue';
 import { useCrudApi } from '@/composables/useCrudApi';
 
@@ -94,6 +89,8 @@ async function createWizkid(noClose) {
     phoneNumber: state.phoneNumber,
     profilePicture: state.profilePicture,
   };
+
+  console.log(wizkid)
       
   await CRUD('create', '', wizkid).then((data) => {
       if (data === 'error') {
