@@ -8,8 +8,8 @@
 </template>
 
 <script setup>
-import FormButton from '@/components/forms/FormButton.vue';
-import FormField from '@/components/forms/FormField.vue';
+import FormButton from '@/components/forms/formComponents/FormButton.vue';
+import FormField from '@/components/forms/formComponents/FormField.vue';
 import axios from 'axios';
 import {ref} from 'vue';
 import {usePopupNotification} from '@/composables/usePopupNotification';

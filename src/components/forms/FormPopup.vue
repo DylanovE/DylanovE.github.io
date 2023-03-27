@@ -21,10 +21,10 @@
 
 <!--think of a way to make the script shorter than this-->
 <script setup>
-import FormButton from './formComponents/FormButton.vue';
-import FormField from '@/components/forms/FormField.vue';
-import FormFieldFileUpload from '@/components/forms/FormFieldFileUpload.vue';
-import FormFieldRoles from '@/components/forms/FormFieldRoles.vue';
+import FormButton from '@/components/forms/formComponents//FormButton.vue';
+import FormField from '@/components/forms/formComponents/FormField.vue';
+import FormFieldFileUpload from '@/components/forms/formComponents/FormFieldFileUpload.vue';
+import FormFieldRoles from '@/components/forms/formComponents/FormFieldRoles.vue';
 import {reactive} from 'vue';
 import {useCrudApi} from '@/composables/useCrudApi';
 

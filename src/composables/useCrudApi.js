@@ -7,45 +7,14 @@ export function useCrudApi() {
     const apiToken = sessionStorage.apiToken;
     const apiUrl = 'http://localhost:8000/wizkids/';
 
-    const CRUD = async(type, id, wizkid) => {
+    const CRUD = async(type, wizkid) => {
         try {
-            let response;
-            switch (type) {
-                case 'read':
-                    response = await axios.get(apiUrl, {
-                        headers: {
-                            Authorization: `Bearer ${apiToken}`,
-                        },
-                    });
-                    return response.data.data;
-                case 'create':
-                    response = await axios.post(apiUrl, wizkid, {
-                        headers: {
-                            Authorization: `Bearer ${apiToken}`,
-                        },
-                    });
-                    showMessage('Wizkid created successfully', 'success');
-                    break;
-                case 'update':
-                    console.log(type, id, wizkid);
-                    await axios.put(`${apiUrl}${id}/`, wizkid, {
-                        headers: {
-                            Authorization: `Bearer ${apiToken}`,
-                        },
-                    });
-                    showMessage('Wizkid updated successfully', 'success');
-                    break;
-                case 'delete':
-                    await axios.delete(`${apiUrl}${id}`, {
-                        headers: {
-                            Authorization: `Bearer ${apiToken}`,
-                        },
-                    });
-                    showMessage('Wizkid deleted successfully', 'success');
-                    break;
-                default:
-                    throw new Error(`Invalid type: ${type}`);
-            }
+            const response = await axios[type](data, {
+                headers: {
+                    Authorization: `Bearer ${apiToken}`,
+                },
+            });
+            
             if (response) {
                 return response.data;
             } else {
@@ -63,5 +32,32 @@ export function useCrudApi() {
         }
     };
 
-    return {CRUD};
+    const useCreate = async(wizkid) => {
+        const data = wizkid;
+        const response = await CRUD('post', data);
+        console.log(response)
+        return response.data;
+    };
+
+    const useRead = async() => {
+        const response = await CRUD('get');
+        console.log(response)
+        return response.data;
+    };
+
+    const useUpdate = async(wizkid) => {
+        const data = `${wizkid.id}/${wizkid}`;
+        const response = await CRUD('put', data);
+        console.log(response)
+        return response.data;
+    };
+
+    const useDelete = async(wizkid) => {
+        const data = `${wizkid.id}/${wizkid}`;
+        const response = await CRUD('delete', data);
+        console.log(response)
+        return response.data;
+    };
+
+    return {useCreate, useRead, useUpdate, useDelete};
 }
