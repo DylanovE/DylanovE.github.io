@@ -126,7 +126,7 @@ a,
     padding: 0.5rem;
   }
 
-  /* used in popupForm.vue */
+  /* used in FormPopup.vue */
   .login-form {
     width: 60%;
     margin: auto;
@@ -139,7 +139,7 @@ a,
   }
 }
 
-  /* used in popupForm.vue */
+  /* used in FormPopup.vue */
   .overlay {
     position: fixed;
     top: 0;

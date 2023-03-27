@@ -7,11 +7,11 @@
     </div>
     <h5 v-if="isLoggedIn" class="float-right blue pointer" @click="togglePopup('create')">Create wizkid</h5>
   </div>
-  <popupForm v-if="isPopupVisible" :type="popupType" :wizkid-data="wizkid" @close="isPopupVisible = false" @refresh="refreshTable" />
+  <FormPopup v-if="isPopupVisible" :type="popupType" :wizkid-data="wizkid" @close="isPopupVisible = false" @refresh="refreshTable" />
 </template>
 
 <script setup>
-import popupForm from '@/components/forms/PopupForm.vue'
+import FormPopup from '@/components/forms/FormPopup.vue'
 import WizkidTable from '@/components/ui/WizkidTable.vue'
 import { ref } from 'vue'
 import usePopup from '@/composables/usePopup'

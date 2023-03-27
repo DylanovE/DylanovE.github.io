@@ -1,9 +1,9 @@
 <script setup>
-import LoginForm from '@/components/forms/LoginForm.vue'
+import FormLogin from '@/components/forms/FormLogin.vue'
 </script>
 
 <template>
   <main>
-    <LoginForm />
+    <FormLogin />
   </main>
 </template>
