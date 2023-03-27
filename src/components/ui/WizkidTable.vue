@@ -42,11 +42,11 @@
 
 <script setup>
 import {computed, onMounted, ref} from 'vue';
-import {useCrudApi} from '@/composables/useCrudApi';
-import RoleFilter from '@/components/ui/RoleFilter.vue';
 import IconDelete from '@/components/icons/IconDelete.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
 import IconOptions from '@/components/icons/IconOptions.vue';
+import RoleFilter from '@/components/ui/RoleFilter.vue';
+import {useCrudApi} from '@/composables/useCrudApi';
 
 const isLoggedIn = sessionStorage.length > 0;
 const {CRUD} = useCrudApi();
@@ -73,10 +73,7 @@ onMounted(() => {
 });
 
 function fetchWizkids() {
-    CRUD('read').then((data) => {
-        if (data === 'error') {
-            console.log('something went wrong while fetching the wizkids!');
-        }
+    CRUD('get').then((data) => {
         wizkids.value = data;
     });
 }

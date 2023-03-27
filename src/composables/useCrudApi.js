@@ -9,55 +9,24 @@ export function useCrudApi() {
 
     const CRUD = async(type, wizkid) => {
         try {
-            const response = await axios[type](data, {
+            let url = apiUrl;
+
+            if (type === 'put' || type === 'delete') {
+                url += `/${wizkid.id}`;
+            }
+            const response = await axios[type](url, wizkid, {
                 headers: {
                     Authorization: `Bearer ${apiToken}`,
                 },
             });
-            
-            if (response) {
-                return response.data;
-            } else {
-                return [];
-            }
+
+            return response.data.data;
         } catch (error) {
-            console.error(error.message);
-            if (error.response.status === 422, type === 'create') {
-                showMessage('email is wrong or already being used.', 0);
-                return 'error';
-            } else {
-                showMessage(error.message, 0);
-            }
+
+            showMessage(error);
             return error;
         }
     };
 
-    const useCreate = async(wizkid) => {
-        const data = wizkid;
-        const response = await CRUD('post', data);
-        console.log(response)
-        return response.data;
-    };
-
-    const useRead = async() => {
-        const response = await CRUD('get');
-        console.log(response)
-        return response.data;
-    };
-
-    const useUpdate = async(wizkid) => {
-        const data = `${wizkid.id}/${wizkid}`;
-        const response = await CRUD('put', data);
-        console.log(response)
-        return response.data;
-    };
-
-    const useDelete = async(wizkid) => {
-        const data = `${wizkid.id}/${wizkid}`;
-        const response = await CRUD('delete', data);
-        console.log(response)
-        return response.data;
-    };
-
-    return {useCreate, useRead, useUpdate, useDelete};
+    return {CRUD};
 }
