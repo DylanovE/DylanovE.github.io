@@ -5,29 +5,25 @@
         <FormFieldFileUpload v-model="state.profilePicture" :field="'Profile Picture:'" :type="'file'"/>
         <FormField v-model="state.name" :field="'Name'" :type="'text'"/>
         <FormFieldRoles v-model="state.role" :roles="state.roles"/>
-        <template v-if="isLoggedIn">
+        <template v-if="sessionStorage.length > 0">
           <FormField v-model="state.email" :field="'Email'" :type="'email'"/>
           <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'"/>
         </template>
-        <button type="submit" class="blue">
-          {{ props.type }}
-        </button>
-        <button v-if="props.type !== 'update'" type="button" class="blue" @click="submitForm('noClose')">
-          {{ props.type }} &amp; add another
-        </button>
+        <FormButton :label="type" class="blue"/>
+        <FormButton v-if="type !== 'update'" :label="`${type} &amp; add another`" class="blue" @click="submitForm('noClose')"/>
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
+import FormButton from './FormButton.vue';
 import FormField from '@/components/forms/FormField.vue';
 import FormFieldRoles from '@/components/forms/FormFieldRoles.vue';
 import { reactive } from 'vue';
 import { useCrudApi } from '@/composables/useCrudApi';
 import FormFieldFileUpload from './FormFieldFileUpload.vue';
 
-const isLoggedIn = sessionStorage.length > 0;
 const props = defineProps({
   wizkidData: {
     type: null,
@@ -66,6 +62,7 @@ function submitForm(noClose) {
   }
 }
 
+  //make this a composable?
 async function createWizkid(noClose) {
   const wizkid = {
     name: state.name,
@@ -74,8 +71,6 @@ async function createWizkid(noClose) {
     phoneNumber: state.phoneNumber,
     profilePicture: state.profilePicture,
   };
-
-  console.log(wizkid)
       
   await CRUD('create', '', wizkid).then((data) => {
       if (data === 'error') {
@@ -87,7 +82,7 @@ async function createWizkid(noClose) {
     });
   }
 
-  //create a wizkid
+  //make this a composable?
   async function updateWizkid() {
     const wizkid = {
       name: state.name,
