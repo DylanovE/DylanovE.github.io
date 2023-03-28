@@ -6,7 +6,6 @@
                 <div v-for="(roleName, roleId) in roleMap" :key="roleId" class="form-check">
                     <input
                         :id="'role-' + roleId"
-                        v-model="filterRoles"
                         class="form-check-input"
                         type="checkbox"
                         :value="roleId"

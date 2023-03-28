@@ -19,11 +19,11 @@
     </svg>
 </template>
 <script setup>
-import {useCrudApi} from '@/composables/useCrudApi';
+import {useApi} from '@/composables/useApi';
 
 const emit = defineEmits(['rerender']);
 
-const {CRUD} = useCrudApi();
+const {api} = useApi();
 const props = defineProps({
     wizkid: {
         type: null,
@@ -33,7 +33,7 @@ const props = defineProps({
 
 // delete a wizkid
 async function deleteWizkid() {
-    await CRUD('delete', props.wizkid).then((data) => {
+    await api('delete', props.wizkid).then((data) => {
         if (data === 'error') {
             console.log('email is wrong or already being used.');
         }

@@ -26,7 +26,7 @@ import FormField from '@/components/forms/formComponents/FormField.vue';
 import FormFieldFileUpload from '@/components/forms/formComponents/FormFieldFileUpload.vue';
 import FormFieldRoles from '@/components/forms/formComponents/FormFieldRoles.vue';
 import {reactive} from 'vue';
-import {useCrudApi} from '@/composables/useCrudApi';
+import {useApi} from '@/composables/useApi';
 
 const isLoggedIn = sessionStorage.length > 0;
 const props = defineProps({
@@ -56,7 +56,7 @@ const state = reactive({
     },
 });
 
-const {CRUD} = useCrudApi();
+const {api} = useApi();
 
 function submitForm() {
     const form = document.querySelector('form');
@@ -77,9 +77,9 @@ async function createWizkid() {
         profilePicture: state.profilePicture,
     };
 
-    await CRUD('create', '', wizkid).then((data) => {
+    await api('post', wizkid).then((data) => {
         if (data === 'error') {
-            console.log('email is wrong or already being used.');
+            return ;
         } else {
             emit('close');
         }
@@ -93,7 +93,7 @@ async function updateWizkid() {
         role: parseInt(state.role),
     };
 
-    await CRUD('update', props.wizkidData.id, wizkid).then((data) => {
+    await api('update', props.wizkidData.id, wizkid).then((data) => {
         if (data === 'error') {
             console.log('something went wrong while updating the wizkid.');
         } else {

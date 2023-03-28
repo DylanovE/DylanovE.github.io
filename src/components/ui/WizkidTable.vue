@@ -46,10 +46,10 @@ import IconDelete from '@/components/icons/IconDelete.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
 import IconOptions from '@/components/icons/IconOptions.vue';
 import RoleFilter from '@/components/ui/RoleFilter.vue';
-import {useCrudApi} from '@/composables/useCrudApi';
+import {useApi} from '@/composables/useApi';
 
 const isLoggedIn = sessionStorage.length > 0;
-const {CRUD} = useCrudApi();
+const {api} = useApi();
 
 const wizkids = ref([]);
 const roleFilter = ref([]);
@@ -73,8 +73,8 @@ onMounted(() => {
 });
 
 function fetchWizkids() {
-    CRUD('get').then((data) => {
-        wizkids.value = data;
+    api('get').then((data) => {
+        wizkids.value = data.data;
     });
 }
 
