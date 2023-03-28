@@ -1,9 +1,9 @@
 <template>
     <h1 class="text-center">Login</h1>
     <form @submit.prevent="attemptLogin">
-        <FormField v-model="email" :field="'Email'" :type="'email'" />
-        <FormField v-model="password" :field="'Password'" :type="'password'" />
-        <FormButton :label="'Login'" class="blue" />
+        <form-field v-model="email" :field="'Email'" :type="'email'" />
+        <form-field v-model="password" :field="'Password'" :type="'password'" />
+        <form-button :label="'Login'" class="blue" />
     </form>
 </template>
 
@@ -18,8 +18,6 @@ import {usePopupNotification} from '@/composables/usePopupNotification';
 const {showMessage} = usePopupNotification();
 const {login} = useApi();
 
-const emit = defineEmits('refresh');
-
 const email = ref('');
 const password = ref('');
 
@@ -30,17 +28,17 @@ const attemptLogin = async() => {
     };
 
     const response = await login(wizkid);
-
     try {
         sessionStorage.apiToken = response.data.apiToken;
         showMessage('successfully logged in.', 'success');
-
         emit('refresh');
         router.push({name: 'home'});
     } catch (error) {
         showMessage(response.response.data.message);
     }
 };
+
+const {emit} = defineEmits(['refresh']);
 
 if (sessionStorage.apiToken) {
     router.push({name: 'home'});
