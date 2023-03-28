@@ -4,31 +4,22 @@
         :id="field"
         :type="type"
         :value="modelValue"
-        :pattern="modelValue"
+        :pattern="pattern"
         required
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="updateModelValue"
     />
 </template>
-
 <script setup>
-defineEmits(['update:modelValue']);
-
 defineProps({
-    field: {
-        type: String,
-        default: '',
-    },
-    type: {
-        type: String,
-        default: 'text',
-    },
-    modelValue: {
-        type: String,
-        default: '',
-    },
-    pattern: {
-        type: String,
-        default: '',
-    },
+    field: {type: String, default: ''},
+    type: {type: String, default: 'text'},
+    modelValue: {type: String, default: ''},
+    pattern: {type: String, default: 'none'},
 });
+
+const emit = defineEmits(['update:modelValue']);
+
+function updateModelValue(event) {
+    emit('update:modelValue', event.target.value);
+}
 </script>

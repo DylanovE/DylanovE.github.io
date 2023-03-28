@@ -3,8 +3,6 @@
 </template>
 
 <script setup>
-defineEmits(['update:modelValue']);
-
 defineProps({
     label: {
         type: String,
