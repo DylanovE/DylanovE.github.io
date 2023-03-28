@@ -14,7 +14,7 @@
         </div>
     </header>
 
-    <RouterView />
+    <RouterView @refresh="refreshToken()"/>
 </template>
 
 <script setup>
@@ -28,6 +28,10 @@ const apiToken = ref(sessionStorage.apiToken);
 
 function logout() {
     sessionStorage.clear();
+    refreshToken();
+}
+
+function refreshToken(){
     apiToken.value = sessionStorage.apiToken;
 }
 </script>
