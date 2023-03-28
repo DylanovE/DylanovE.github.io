@@ -4,6 +4,7 @@
         :id="field"
         :type="type"
         :value="modelValue"
+        :pattern="modelValue"
         required
         @input="$emit('update:modelValue', $event.target.value)"
     />
@@ -22,6 +23,10 @@ defineProps({
         default: 'text',
     },
     modelValue: {
+        type: String,
+        default: '',
+    },
+    pattern: {
         type: String,
         default: '',
     },

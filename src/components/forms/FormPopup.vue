@@ -11,7 +11,7 @@
                 <FormFieldRoles v-model="state.role" :roles="state.roles" />
                 <template v-if="isLoggedIn">
                     <FormField v-model="state.email" :field="'Email'" :type="'email'" />
-                    <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'" />
+                    <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'" :pattern="'[0-9]{3}-[0-9]{2}-[0-9]{3}'"/>
                 </template>
                 <FormButton :label="type" class="blue" />
             </form>
