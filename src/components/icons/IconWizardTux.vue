@@ -1,13 +1,3 @@
-<script>
-export default {
-    methods: {
-        yourAWizkid() {
-            alert('YER A WIZKID HARRY!');
-        },
-    },
-};
-</script>
-
 <template>
     <img
         alt="Wizard Tux Logo"
@@ -17,6 +7,16 @@ export default {
         @click="yourAWizkid"
     />
 </template>
+
+<script>
+export default {
+    methods: {
+        yourAWizkid() {
+            alert('YER A WIZKID HARRY!');
+        },
+    },
+};
+</script>
 
 <style scoped>
 img {

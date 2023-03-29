@@ -28,7 +28,7 @@ import WizkidTable from '@/components/ui/WizkidTable.vue';
 import {ref} from 'vue';
 import usePopup from '@/composables/usePopup';
 
-const isLoggedIn = !!sessionStorage.apiToken;
+const isLoggedIn = !!sessionStorage.api_token;
 const {wizkid, isPopupVisible, popupType, togglePopup} = usePopup();
 const searchQuery = ref('');
 const tableKey = ref(0);

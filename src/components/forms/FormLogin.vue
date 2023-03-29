@@ -36,7 +36,7 @@ const attemptLogin = async() => {
         if (response.name == 'AxiosError') {
             throw response.response.data.message;
         }
-        sessionStorage.apiToken = response.data.apiToken;
+        sessionStorage.api_token = response.data.apiToken;
         showMessage('successfully logged in.', 'success');
         emit('refresh');
         router.push({name: 'home'});
@@ -45,7 +45,7 @@ const attemptLogin = async() => {
     }
 };
 
-if (sessionStorage.apiToken) {
+if (sessionStorage.api_token) {
     router.push({name: 'home'});
 }
 </script>

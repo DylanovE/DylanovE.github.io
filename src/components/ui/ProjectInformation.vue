@@ -1,10 +1,3 @@
-<script setup>
-import CommunityIcon from '@/components/icons/IconCommunity.vue';
-import DocumentationIcon from '@/components/icons/IconDocumentation.vue';
-import InformationItem from '@/components/ui/InformationItem.vue';
-import SupportIcon from '@/components/icons/IconSupport.vue';
-</script>
-
 <template>
     <InformationItem>
         <template #icon>
@@ -44,3 +37,10 @@ import SupportIcon from '@/components/icons/IconSupport.vue';
         yet!
     </InformationItem>
 </template>
+
+<script setup>
+import CommunityIcon from '@/components/icons/IconCommunity.vue';
+import DocumentationIcon from '@/components/icons/IconDocumentation.vue';
+import InformationItem from '@/components/ui/InformationItem.vue';
+import SupportIcon from '@/components/icons/IconSupport.vue';
+</script>

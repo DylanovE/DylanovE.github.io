@@ -17,6 +17,7 @@
         </div>
     </th>
 </template>
+
 <script setup>
 import IconFilter from '@/components/icons/IconFilter.vue';
 

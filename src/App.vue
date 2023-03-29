@@ -8,13 +8,13 @@
             <nav class="align-items-center">
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/wizkid-manager">Wizkid manager</RouterLink>
-                <RouterLink v-if="apiToken" to="" @click="logout()">logout</RouterLink>
-                <RouterLink v-if="!apiToken" to="/login">login</RouterLink>
+                <RouterLink v-if="api_token" to="" @click="logout()">logout</RouterLink>
+                <RouterLink v-if="!api_token" to="/login">login</RouterLink>
             </nav>
         </div>
     </header>
 
-    <RouterView @refresh="refreshToken()"/>
+    <RouterView @refresh="refreshToken()" />
 </template>
 
 <script setup>
@@ -24,15 +24,15 @@ import {RouterLink, RouterView} from 'vue-router';
 import HelloWorld from '@/components/ui/IntroductionText.vue';
 import WizardTuxLogo from '@/components/icons/IconWizardTux.vue';
 import {ref} from 'vue';
-const apiToken = ref(sessionStorage.apiToken);
+const api_token = ref(sessionStorage.api_token);
 
 function logout() {
     sessionStorage.clear();
     refreshToken();
 }
 
-function refreshToken(){
-    apiToken.value = sessionStorage.apiToken;
+function refreshToken() {
+    api_token.value = sessionStorage.api_token;
 }
 </script>
 
