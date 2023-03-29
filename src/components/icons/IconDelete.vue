@@ -20,9 +20,11 @@
 </template>
 <script setup>
 import {useApi} from '@/composables/useApi';
+import {usePopupNotification} from '@/composables/usePopupNotification';
 
 const emit = defineEmits(['rerender']);
 
+const {showMessage} = usePopupNotification();
 const {api} = useApi();
 const props = defineProps({
     wizkid: {
@@ -33,11 +35,16 @@ const props = defineProps({
 
 // delete a wizkid
 async function deleteWizkid() {
-    await api('delete', props.wizkid).then((data) => {
-        if (data === 'error') {
-            console.log('email is wrong or already being used.');
+    const response = await api('delete', props.wizkid);
+
+    try {
+        if (response.name == 'AxiosError') {
+            throw response.response.data.message;
         }
-    });
-    emit('rerender');
+        showMessage('successfully deleted wizkid.', 'success');
+        emit('rerender');
+    } catch (error) {
+        showMessage(error);
+    }
 }
 </script>

@@ -9,23 +9,21 @@ export function useApi() {
             let url = apiUrl + 'wizkids/';
 
             if (type === 'put' || type === 'delete') {
-                url += `/${wizkid.id}`;
+                url += `${wizkid}`;
             }
 
-            let config = {
+            let auth = {
                 headers: {
                     Authorization: `Bearer ${apiToken}`,
                 },
             };
 
-            if (type !== 'get' && wizkid !== undefined) {
-                config = {
-                    ...config,
-                    data: wizkid,
-                };
+            let response;
+            if (wizkid !== undefined) {
+                response = await axios[type](url, wizkid, auth);
+            } else {
+                response = await axios[type](url, auth);
             }
-
-            const response = await axios[type](url, config);
 
             return response.data;
         } catch (error) {

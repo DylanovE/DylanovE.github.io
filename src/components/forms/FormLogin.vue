@@ -1,8 +1,8 @@
 <template>
     <h1 class="text-center">Login</h1>
     <form @submit.prevent="attemptLogin">
-        <form-field v-model="email" :field="'Email'" :type="'email'" :pattern="'[^@\s]+@[^@\s]+\.[^@\s]+'" />
-        <form-field v-model="password" :field="'Password'" :type="'password'" :pattern="'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,*}$'" />
+        <form-field v-model="email" :field="'Email'" />
+        <form-field v-model="password" :field="'Password'" :type="'password'"  />
         <form-button :label="'Login'" class="blue" />
     </form>
 </template>

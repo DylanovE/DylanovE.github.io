@@ -7,11 +7,11 @@
                     :field="'Profile Picture:'"
                     :type="'file'"
                 />
-                <FormField v-model="state.name" :field="'Name'" :type="'text'" :pattern="'^[A-Za-z -]+$'" />
+                <FormField v-model="state.name" :field="'Name'" :type="'text'" />
                 <FormFieldRoles v-model="state.role" :roles="state.roles" />
                 <template v-if="isLoggedIn">
-                    <FormField v-model="state.email" :field="'Email'" :type="'email'" :pattern="'[^@\s]+@[^@\s]+\.[^@\s]+'" />
-                    <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'" :pattern="'.*'"/>
+                    <FormField v-model="state.email" :field="'Email'" :type="'email'" />
+                    <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'" />
                 </template>
                 <FormButton :label="type" class="blue" />
             </form>
@@ -27,6 +27,7 @@ import FormFieldFileUpload from '@/components/forms/formComponents/FormFieldFile
 import FormFieldRoles from '@/components/forms/formComponents/FormFieldRoles.vue';
 import {reactive} from 'vue';
 import {useApi} from '@/composables/useApi';
+import {usePopupNotification} from '@/composables/usePopupNotification';
 
 const isLoggedIn = sessionStorage.length > 0;
 const props = defineProps({
@@ -40,7 +41,9 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'refresh']);
+const {api} = useApi();
+const {showMessage} = usePopupNotification();
 
 const state = reactive({
     name: props.wizkidData.name,
@@ -56,7 +59,6 @@ const state = reactive({
     },
 });
 
-const {api} = useApi();
 
 function submitForm() {
     const form = document.querySelector('form');
@@ -78,7 +80,16 @@ async function createWizkid() {
     };
 
     const response = await api('post', wizkid);
-    console.log('response', response);
+
+    try {
+        if (response.name == 'AxiosError') {
+            throw response.response.data.message;
+        }
+        showMessage('successfully created wizkid.', 'success');
+        emit('refresh', 'close');
+    } catch (error) {
+        showMessage(error);
+    }
 }
 
 // make this a composable?

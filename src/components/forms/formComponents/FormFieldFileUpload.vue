@@ -9,7 +9,7 @@
             class="ms-2 mb-1"
         />
     </label>
-    <input :id="field" accept="image/*" type="file" @change="onFileChange" />
+    <input :id="field" accept=".jpg, .png" type="file" @change="onFileChange" />
 </template>
 
 <script setup>

@@ -14,7 +14,7 @@ defineProps({
     field: {type: String, default: ''},
     type: {type: String, default: 'text'},
     modelValue: {type: String, default: ''},
-    pattern: {type: String, default: 'none'},
+    pattern: {type: String, default: '.*'},
 });
 
 const emit = defineEmits(['update:modelValue']);
