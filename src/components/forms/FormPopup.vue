@@ -7,11 +7,11 @@
                     :field="'Profile Picture:'"
                     :type="'file'"
                 />
-                <FormField v-model="state.name" :field="'Name'" :type="'text'" />
+                <FormField v-model="state.name" :field="'Name'" :type="'text'" :pattern="'^[A-Za-z -]+$'" />
                 <FormFieldRoles v-model="state.role" :roles="state.roles" />
                 <template v-if="isLoggedIn">
-                    <FormField v-model="state.email" :field="'Email'" :type="'email'" />
-                    <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'" :pattern="'[0-9]{3}-[0-9]{2}-[0-9]{3}'"/>
+                    <FormField v-model="state.email" :field="'Email'" :type="'email'" :pattern="'[^@\s]+@[^@\s]+\.[^@\s]+'" />
+                    <FormField v-model="state.phoneNumber" :field="'Phone Number:'" :type="'tel'" :pattern="'.*'"/>
                 </template>
                 <FormButton :label="type" class="blue" />
             </form>
@@ -77,13 +77,8 @@ async function createWizkid() {
         profilePicture: state.profilePicture,
     };
 
-    await api('post', wizkid).then((data) => {
-        if (data === 'error') {
-            return ;
-        } else {
-            emit('close');
-        }
-    });
+    const response = await api('post', wizkid);
+    console.log('response', response);
 }
 
 // make this a composable?

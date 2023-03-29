@@ -4,7 +4,7 @@
         id="role"
         :value="modelValue"
         required
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="updateModelValue"
     >
         <option value="" disabled>Select a role</option>
         <option v-for="(value, key) in roles" :key="key" :value="key">{{ value }}</option>
@@ -12,9 +12,9 @@
 </template>
 
 <script setup>
-defineEmits(['update:modelValue']);
+import {ref} from 'vue';
 
-defineProps({
+const props = defineProps({
     roles: {
         type: undefined,
         default: '',
@@ -24,4 +24,13 @@ defineProps({
         default: '',
     },
 });
+
+const selectedRole = ref(props.modelValue);
+
+const emit = defineEmits(['update:modelValue']);
+
+function updateModelValue(event) {
+    selectedRole.value = event.target.value;
+    emit('update:modelValue', event.target.value);
+}
 </script>
