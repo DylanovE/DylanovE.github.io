@@ -30,6 +30,9 @@ const attemptLogin = async() => {
 
     const response = await login(wizkid);
     try {
+        if (response.name == 'AxiosError') {
+            throw response.response.data.message;
+        }
         sessionStorage.apiToken = response.data.apiToken;
         showMessage('successfully logged in.', 'success');
         emit('refresh');
