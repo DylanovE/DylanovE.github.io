@@ -19,13 +19,12 @@
     </div>
 </template>
 
-<!--think of a way to make the script shorter than this-->
 <script setup>
+import {reactive, watch} from 'vue';
 import FormButton from '@/components/forms/formComponents//FormButton.vue';
 import FormField from '@/components/forms/formComponents/FormField.vue';
 import FormFieldFileUpload from '@/components/forms/formComponents/FormFieldFileUpload.vue';
 import FormFieldRoles from '@/components/forms/formComponents/FormFieldRoles.vue';
-import {reactive} from 'vue';
 import {useApi} from '@/composables/useApi';
 import {usePopupNotification} from '@/composables/usePopupNotification';
 
@@ -58,6 +57,8 @@ const state = reactive({
         4: 'Intern',
     },
 });
+
+watch(() => props.wizkidData.name, (newValue) => state.name = newValue);
 
 
 function submitForm() {
@@ -97,14 +98,23 @@ async function updateWizkid() {
     const wizkid = {
         name: state.name,
         role: parseInt(state.role),
+        email: state.email,
+        phoneNumber: state.phoneNumber,
+        profilePicture: state.profilePicture,
     };
 
-    await api('update', props.wizkidData.id, wizkid).then((data) => {
-        if (data === 'error') {
-            console.log('something went wrong while updating the wizkid.');
-        } else {
-            emit('close');
+    console.log('hi');
+    console.log(wizkid);
+    const response = await api('put', wizkid);
+
+    try {
+        if (response.name == 'AxiosError') {
+            throw response.response.data.message;
         }
-    });
+        showMessage('successfully created wizkid.', 'success');
+        emit('refresh', 'close');
+    } catch (error) {
+        showMessage(error);
+    }
 }
 </script>

@@ -8,7 +8,7 @@
         height="24"
         class="inline-block"
         role="presentation"
-        @click="$emit('edit')"
+        @click="edit()"
     >
         <path
             stroke-linecap="round"
@@ -19,5 +19,9 @@
     </svg>
 </template>
 <script setup>
-defineEmits('edit');
+const emit = defineEmits(['edit']);
+
+function edit() {
+    emit('edit');
+}
 </script>
