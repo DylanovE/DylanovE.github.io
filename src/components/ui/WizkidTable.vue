@@ -31,7 +31,7 @@
                         <IconOptions />
                         <div class="dropdown-menu p-3" aria-labelledby="dropdownFunctionsSvg">
                             <IconEdit @edit="$emit('edit', filteredWizkid)" />
-                            <IconDelete :wizkid="filteredWizkid.id" @rerender="fetchWizkids" />
+                            <IconDelete :wizkid="filteredWizkid" @rerender="fetchWizkids" />
                         </div>
                     </div>
                 </td>

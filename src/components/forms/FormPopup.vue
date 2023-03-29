@@ -45,6 +45,7 @@ const {api} = useApi();
 const {showMessage} = usePopupNotification();
 
 const state = reactive({
+    id: props.wizkidData.id,
     name: props.wizkidData.name,
     profilePicture: props.wizkidData.profilePicture,
     role: props.wizkidData.role,
@@ -58,7 +59,15 @@ const state = reactive({
     },
 });
 
-watch(() => props.wizkidData.name, (newValue) => state.name = newValue);
+watch(() => props.wizkidData, (newValue) => {
+    state.id = newValue.id,
+    state.name = newValue.name;
+    state.profilePicture = newValue.profilePicture;
+    state.role = newValue.role;
+    state.email = newValue.email;
+    state.phoneNumber = newValue.phoneNumber;
+});
+
 
 
 function submitForm() {
@@ -87,7 +96,8 @@ async function createWizkid() {
             throw response.response.data.message;
         }
         showMessage('successfully created wizkid.', 'success');
-        emit('refresh', 'close');
+        emit('refresh');
+        emit('close');
     } catch (error) {
         showMessage(error);
     }
@@ -96,6 +106,7 @@ async function createWizkid() {
 // make this a composable?
 async function updateWizkid() {
     const wizkid = {
+        id: state.id,
         name: state.name,
         role: parseInt(state.role),
         email: state.email,
@@ -103,16 +114,15 @@ async function updateWizkid() {
         profilePicture: state.profilePicture,
     };
 
-    console.log('hi');
-    console.log(wizkid);
     const response = await api('put', wizkid);
 
     try {
         if (response.name == 'AxiosError') {
             throw response.response.data.message;
         }
-        showMessage('successfully created wizkid.', 'success');
-        emit('refresh', 'close');
+        showMessage('successfully updated wizkid.', 'success');
+        emit('refresh');
+        emit('close');
     } catch (error) {
         showMessage(error);
     }

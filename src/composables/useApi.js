@@ -9,7 +9,10 @@ export function useApi() {
             let url = apiUrl + 'wizkids/';
 
             if (type === 'put' || type === 'delete') {
-                url += `${wizkid}`;
+                url += `${wizkid.id}`;
+                if (wizkid.profilePicture !== String) {
+                    delete wizkid.profilePicture;
+                }
             }
 
             let auth = {
@@ -17,6 +20,8 @@ export function useApi() {
                     Authorization: `Bearer ${apiToken}`,
                 },
             };
+
+            console.log(wizkid);
 
             let response;
             if (wizkid !== undefined) {
