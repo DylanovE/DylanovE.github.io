@@ -28,7 +28,7 @@ import FormFieldRoles from '@/components/forms/formComponents/FormFieldRoles.vue
 import {useApi} from '@/composables/useApi';
 import {usePopupNotification} from '@/composables/usePopupNotification';
 
-const isLoggedIn = sessionStorage.length > 0;
+const isLoggedIn = localStorage.length > 0;
 const props = defineProps({
     wizkidData: {
         type: null,

@@ -24,16 +24,25 @@ import {RouterLink, RouterView} from 'vue-router';
 import HelloWorld from '@/components/ui/IntroductionText.vue';
 import WizardTuxLogo from '@/components/icons/IconWizardTux.vue';
 import {ref} from 'vue';
-const api_token = ref(sessionStorage.api_token);
+import {useApi} from '@/composables/useApi';
+
+const {validateToken} = useApi();
+
+const api_token = ref(localStorage.api_token);
 
 function logout() {
-    sessionStorage.clear();
+    localStorage.clear();
     refreshToken();
 }
 
 function refreshToken() {
-    api_token.value = sessionStorage.api_token;
+    api_token.value = localStorage.api_token;
 }
+
+// no clue how to activate 'validateToken()' on localStorage change, there seems to be no function to do this.
+setInterval(function(){
+    validateToken();
+}, 5000);
 </script>
 
 <style scoped>

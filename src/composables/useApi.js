@@ -4,19 +4,10 @@ import {usePopupNotification} from '@/composables/usePopupNotification';
 const {showMessage} = usePopupNotification();
 
 export function useApi() {
-    const api_token = sessionStorage.api_token;
     const apiUrl = 'http://localhost:8000/';
 
     const api = async(type, wizkid) => {
         try {
-            if (api_token) {
-                const response = validateToken();
-                console.log(response);
-                if (response.name == 'AxiosError') {
-                    throw response.response.data.message;
-                }
-            }
-
             let url = apiUrl + 'wizkids/';
 
             if (type === 'put' || type === 'delete') {
@@ -28,7 +19,7 @@ export function useApi() {
 
             let auth = {
                 headers: {
-                    Authorization: `Bearer ${api_token}`,
+                    Authorization: `Bearer ${localStorage.api_token}`,
                 },
             };
 
@@ -58,25 +49,30 @@ export function useApi() {
     };
 
     async function validateToken() {
-        let auth = {
-            headers: {
-                Authorization: `Bearer ${api_token}`,
-            },
-        };
+        if (localStorage.api_token == undefined) {
+            return 'success';
+        }else{
+            let auth = {
+                headers: {
+                    Authorization: `Bearer ${localStorage.api_token}`,
+                },
+            };
 
-        try {
-            let url = apiUrl + 'auth/refresh';
+            try {
+                let url = apiUrl + 'auth/refresh';
 
-            const response = await axios.get(url, auth);
-            if (response.name == 'AxiosError') {
-                throw response;
+                const response = await axios.get(url, auth);
+                if (response.name == 'AxiosError') {
+                    throw response;
+                }
+                return response;
+            } catch (error) {
+                localStorage.clear();
+                showMessage('unauthorized user!');
             }
-        } catch (error) {
-            sessionStorage.clear();
-            showMessage('You are not a authorized user!');
-            location.reload();
         }
+
     };
 
-    return {api, login};
+    return {api, login, validateToken};
 }

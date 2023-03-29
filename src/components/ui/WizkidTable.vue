@@ -48,7 +48,7 @@ import IconOptions from '@/components/icons/IconOptions.vue';
 import RoleFilter from '@/components/ui/RoleFilter.vue';
 import {useApi} from '@/composables/useApi';
 
-const isLoggedIn = sessionStorage.length > 0;
+const isLoggedIn = localStorage.api_token;
 const {api} = useApi();
 
 const wizkids = ref([]);
