@@ -2,7 +2,7 @@
     <h1 class="text-center">Login</h1>
     <form @submit.prevent="attemptLogin">
         <form-field v-model="email" :field="'Email'" />
-        <form-field v-model="password" :field="'Password'" :type="'password'"  />
+        <form-field v-model="password" :field="'Password'" :type="'password'" />
         <form-button :label="'Login'" class="blue" />
     </form>
 </template>
@@ -16,9 +16,11 @@ import {useApi} from '@/composables/useApi';
 import {usePopupNotification} from '@/composables/usePopupNotification';
 
 const {showMessage} = usePopupNotification();
+
 const {login} = useApi();
 
 const emit = defineEmits(['refresh']);
+
 const email = ref('');
 const password = ref('');
 
@@ -29,6 +31,7 @@ const attemptLogin = async() => {
     };
 
     const response = await login(wizkid);
+
     try {
         if (response.name == 'AxiosError') {
             throw response.response.data.message;
@@ -41,7 +44,6 @@ const attemptLogin = async() => {
         showMessage(response.response.data.message);
     }
 };
-
 
 if (sessionStorage.apiToken) {
     router.push({name: 'home'});

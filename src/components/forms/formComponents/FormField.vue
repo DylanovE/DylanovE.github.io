@@ -11,7 +11,7 @@
 </template>
 <script setup>
 defineProps({
-    field: {type: String, default: ''},
+    field: {type: String, default: 'undefined'},
     type: {type: String, default: 'text'},
     modelValue: {type: String, default: ''},
     pattern: {type: String, default: '.*'},

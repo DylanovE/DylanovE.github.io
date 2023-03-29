@@ -1,7 +1,7 @@
 <script setup>
-import InformationItem from '@/components/ui/InformationItem.vue';
 import CommunityIcon from '@/components/icons/IconCommunity.vue';
 import DocumentationIcon from '@/components/icons/IconDocumentation.vue';
+import InformationItem from '@/components/ui/InformationItem.vue';
 import SupportIcon from '@/components/icons/IconSupport.vue';
 </script>
 

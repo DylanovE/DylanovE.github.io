@@ -14,10 +14,11 @@
 
 <script setup>
 const emit = defineEmits(['update:modelValue']);
+
 defineProps({
     field: {
         type: String,
-        default: '',
+        default: 'undefined',
     },
     type: {
         type: String,

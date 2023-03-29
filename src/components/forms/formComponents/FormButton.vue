@@ -6,7 +6,7 @@
 defineProps({
     label: {
         type: String,
-        default: 'undefined',
+        default: 'button',
     },
     type: {
         type: String,
