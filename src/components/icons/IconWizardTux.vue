@@ -17,23 +17,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-img {
-  display: block;
-  margin: 0 2rem 0 0;
-  float: left;
-}
-
-@media (max-width: 1024px) {
-  img {
-    position: absolute;
-  }
-}
-
-@media (max-width: 625px) {
-  img {
-    position: relative;
-  }
-}
-</style>

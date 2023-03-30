@@ -1,51 +1,14 @@
 <template>
     <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th v-if="isLoggedIn">Email</th>
-                <th v-if="isLoggedIn">Phone</th>
-                <th>Role</th>
-                <th>Avatar</th>
-                <td>
-                    <RoleFilter :role-map="wizkidRoleMap" @filter="updateFilter" />
-                </td>
-            </tr>
-            <tr v-if="filteredWizkids.length == 0">
-                <td colspan="7" class="text-center">No WizKids Found</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr
-                v-for="filteredWizkid in filteredWizkids"
-                :key="filteredWizkid.id"
-                :data-id="filteredWizkid.id"
-            >
-                <td>{{ filteredWizkid.name }}</td>
-                <td v-if="isLoggedIn">{{ filteredWizkid.email }}</td>
-                <td v-if="isLoggedIn">{{ filteredWizkid.phoneNumber }}</td>
-                <td>{{ wizkidRoleMap[filteredWizkid.role] }}</td>
-                <td><img :src="filteredWizkid.profilePicture?.thumbSm" alt="None" /></td>
-                <td>
-                    <div v-if="isLoggedIn" class="dropdown">
-                        <IconOptions />
-                        <div class="dropdown-menu p-3" aria-labelledby="dropdownFunctionsSvg">
-                            <IconEdit @edit="$emit('edit', filteredWizkid)" />
-                            <IconDelete :wizkid="filteredWizkid" @rerender="fetchWizkids" />
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
+        <WizkidHead :is-logged-in="isLoggedIn" :role-map="wizkidRoleMap" :wizkids="filteredWizkids" @filter="updateFilter"/>
+        <WizkidBody :role-map="wizkidRoleMap" :is-logged-in="isLoggedIn" :wizkids="filteredWizkids" @edit="$emit('edit', $event)" @rerender="fetchWizkids"/>
     </table>
 </template>
 
 <script setup>
 import {computed, onMounted, ref} from 'vue';
-import IconDelete from '@/components/icons/IconDelete.vue';
-import IconEdit from '@/components/icons/IconEdit.vue';
-import IconOptions from '@/components/icons/IconOptions.vue';
-import RoleFilter from '@/components/ui/RoleFilter.vue';
+import WizkidBody from './WizkidBody.vue';
+import WizkidHead from './WizkidHead.vue';
 import {useApi} from '@/composables/useApi';
 
 const isLoggedIn = localStorage.api_token;
@@ -59,6 +22,7 @@ const wizkidRoleMap = {
     3: 'Designer',
     4: 'Intern',
 };
+
 const props = defineProps({
     search: {
         type: String,
@@ -91,14 +55,13 @@ const filteredWizkids = computed(() => {
     const query = props.search;
     const roles = roleFilter.value;
 
-    // if no roles to filter on, only filter on query.
     return wizkids.value.filter((wizkid) => {
         if (roles.length === 0) {
             return wizkid.name.toLowerCase().includes(query);
         } else {
             return (
                 wizkid.name.toLowerCase().includes(query) &&
-        roles.includes(wizkid.role.toString())
+                roles.includes(wizkid.role.toString())
             );
         }
     });

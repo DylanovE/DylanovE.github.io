@@ -10,25 +10,3 @@
     </div>
 </template>
 
-<style scoped>
-@media (max-width: 420px) {
-  h3 {
-    visibility: hidden;
-    display: none;
-  }
-
-  div {
-    text-align: center;
-  }
-
-  h1 {
-    padding-top: 10%;
-  }
-}
-
-@media (max-width: 1024px) {
-  div {
-    text-align: center;
-  }
-}
-</style>
