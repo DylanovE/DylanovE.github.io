@@ -36,6 +36,7 @@ const attemptLogin = async() => {
         if (response.name == 'AxiosError') {
             throw response.response.data.message;
         }
+
         localStorage.api_token = response.data.apiToken;
         showMessage('successfully logged in.', 'success');
         emit('refresh');

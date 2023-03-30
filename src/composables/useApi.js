@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '@/router';
 import {usePopupNotification} from '@/composables/usePopupNotification';
 
 const {showMessage} = usePopupNotification();
@@ -8,6 +9,7 @@ export function useApi() {
 
     const api = async(type, wizkid) => {
         try {
+            await validateToken();
             let url = apiUrl + 'wizkids/';
 
             if (type === 'put' || type === 'delete') {
@@ -50,8 +52,8 @@ export function useApi() {
 
     async function validateToken() {
         if (localStorage.api_token == undefined) {
-            return 'success';
-        }else{
+            return 'OK';
+        } else {
             let auth = {
                 headers: {
                     Authorization: `Bearer ${localStorage.api_token}`,
@@ -63,15 +65,17 @@ export function useApi() {
 
                 const response = await axios.get(url, auth);
                 if (response.name == 'AxiosError') {
-                    throw response;
+                    throw response.name;
                 }
-                return response;
+
+                return response.statusText; // returns OK
             } catch (error) {
                 localStorage.clear();
                 showMessage('unauthorized user!');
+                router.push({name: 'home'});
+                throw error; // throws AxiosError
             }
         }
-
     };
 
     return {api, login, validateToken};
