@@ -78,5 +78,5 @@ export function useApi() {
         }
     };
 
-    return {api, login, validateToken};
+    return {api, login};
 }

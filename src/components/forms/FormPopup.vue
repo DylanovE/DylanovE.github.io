@@ -79,7 +79,6 @@ function submitForm() {
     }
 }
 
-// make this a composable?
 async function createWizkid() {
     const wizkid = {
         name: state.name,
@@ -103,7 +102,6 @@ async function createWizkid() {
     }
 }
 
-// make this a composable?
 async function updateWizkid() {
     const wizkid = {
         id: state.id,
