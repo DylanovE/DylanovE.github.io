@@ -68,12 +68,12 @@ export function useApi() {
                     throw response.name;
                 }
 
-                return response.statusText; // returns OK
+                return response.statusText;
             } catch (error) {
                 localStorage.clear();
                 showMessage('unauthorized user!');
                 router.push({name: 'home'});
-                throw error; // throws AxiosError
+                throw error;
             }
         }
     };
