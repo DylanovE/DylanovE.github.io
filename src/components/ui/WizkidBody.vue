@@ -1,29 +1,19 @@
 <template>
     <tbody>
         <tr v-for="wizkid in wizkids" :key="wizkid.id" :data-id="wizkid.id">
-            <td>{{ wizkid.name }}</td>
-            <td v-if="isLoggedIn">{{ wizkid.email }}</td>
-            <td v-if="isLoggedIn">{{ wizkid.phoneNumber }}</td>
-            <td>{{ roleMap[wizkid.role] }}</td>
-            <td><img :src="wizkid.profilePicture?.thumbSm" alt="None" /></td>
-            <td>
-                <!--make functions component-->
-                <div v-if="isLoggedIn" class="dropdown">
-                    <IconOptions />
-                    <div class="dropdown-menu p-3" aria-labelledby="dropdownFunctionsSvg">
-                        <IconEdit @edit="$emit('edit', wizkid)" />
-                        <IconDelete :wizkid="wizkid" @rerender="$emit('rerender')" />
-                    </div>
-                </div>
-            </td>
+            <TableData :data="wizkid.name"/>
+            <TableData v-if="isLoggedIn" :data="wizkid.email"/>
+            <TableData v-if="isLoggedIn" :data="wizkid.phoneNumber"/>
+            <TableData :data="roleMap[wizkid.role]"/>
+            <TableData :type="'image'" :data="wizkid.profilePicture?.thumbSm"/>
+            <TableFunctions :wizkid="wizkid" :is-logged-in="isLoggedIn" @edit="$emit('edit', wizkid)" @rerender="$emit('rerender')"/>
         </tr>
     </tbody>
 </template>
 
 <script setup>
-import IconDelete from '@/components/icons/IconDelete.vue';
-import IconEdit from '@/components/icons/IconEdit.vue';
-import IconOptions from '@/components/icons/IconOptions.vue';
+import TableData from '@/components/ui/TableData.vue';
+import TableFunctions from '@/components/ui/TableFunctions.vue';
 
 
 defineEmits(['edit', 'rerender']);
